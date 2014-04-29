@@ -20,7 +20,12 @@ void updateBytes() {
   digitalWrite(LATCH, HIGH);
 
   for (int i = 0; i < NBYTES; i++) {
-    bytes[i]++;
+    if (i % 2) {
+      bytes[i]++;
+    }
+    else {
+      bytes[i]--;
+    }
   }  
 }
 
