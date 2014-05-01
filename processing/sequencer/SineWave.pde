@@ -1,8 +1,8 @@
 class SineWave extends Displayable {
 	Phasor phasor = new Phasor(0.01);
-	int resolution = 32;
+	int resolution = 16;
 	float weight = 4;
-	float nCycles = 2;
+	float nCycles = 1;
 
 	void update() {
 		phasor.update();

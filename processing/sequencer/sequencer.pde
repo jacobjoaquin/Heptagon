@@ -28,7 +28,7 @@ void setup() {
 
   mp.seq(new PushCel(cel0, new SineWave()));
   mp.seq(new Wait(w));                    // Wait for 250 frames
-  
+
 
   mp.seq(new PushCel(cel0, new Scroller()));
   mp.seq(new Wait(w));                    // Wait for 250 frames
