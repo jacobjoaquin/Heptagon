@@ -48,4 +48,3 @@ PImage makeDot(float size, float blurAmount, color c) {
   img.copy(pg, l3, l3, imgSize, imgSize, 0, 0, imgSize, imgSize);
   return img;
 }
-

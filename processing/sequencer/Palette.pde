@@ -1,20 +1,3 @@
-class PHSB {
-  public Palette palette;
-  float h;          // Hue from palette
-  float s;          // Saturation
-  float b;          // Brightness
-  float a;          // Alpha
-  
-  void setPalette(Palette palette_) {
-    palette = palette_;
-  }
-  
-  color get(float f) {
-    color thisColor = palette.get(f);
-    return thisColor;
-  }
-}
-
 public abstract class Palette {
   protected ArrayList<Integer> colors;
   int nColors = 0;
@@ -24,7 +7,6 @@ public abstract class Palette {
   }
 
   color get(float h) {
-    println(h);
     if (nColors >= 1) {
       
       if (h >= 1.0) {
@@ -50,25 +32,5 @@ public abstract class Palette {
   
   void update() {
     nColors = colors.size();
-  }
-}
-
-class Palette_HSB extends Palette {
-  Palette_HSB() {
-    super();
-    add(color(255, 0, 0));
-    add(color(255, 255, 0));
-    add(color(0, 255, 0));
-    add(color(0, 255, 255));
-    add(color(0, 0, 255));
-    add(color(255, 0, 255));
-  }
-}
-
-class Palette_foo extends Palette {
-  Palette_foo() {
-    super();
-    add(color(255, 128, 0));
-    add(color(0, 0, 255));
   }
 }

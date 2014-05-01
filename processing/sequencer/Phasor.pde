@@ -9,13 +9,10 @@ class Phasor {
   
   void update() {
     phase += inc;
+    phase -= (int) phase;
     
-    while (phase >= 1.0) {
-      phase -= 1.0;
-    }
-    
-    while (phase < 0) {
-      phase += 1.0;
+    if (phase < 0) {
+      phase += 1;
     }
   }
 }
