@@ -56,13 +56,13 @@ class Chip {
 
 		for (int i = 0; i < 4; i++) {
 			if ((0x01 & (pins >> i)) == 1)  {
-				rect(-8, i * 8, 8, 4);
+				rect(-8, (3 - i) * 8, 8, 4);
 			}
 		}
 
 		for (int i = 4; i < 8; i++) {
 			if ((0x01 & (pins >> i)) == 1)  {
-				rect(w, (i - 4) * 8, 8, 4);
+				rect(w, (3 - (i - 4)) * 8, 8, 4);
 			}
 		}
 
