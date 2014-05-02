@@ -18,6 +18,10 @@ ArrayList<Chip> chips = new ArrayList<Chip>();
 ArrayList<Byte> foo = new ArrayList<Byte>();
 
 
+SerialDataManager serialDataManager;
+SerialDataManagerThread serialDataManagerThread;
+Thread t;
+
 void updateBytes() {
   int available = port.available();
   
@@ -71,6 +75,12 @@ void setup() {
   serial = null;  
   clearInputs();
 
+  serialDataManager = new SerialDataManager();
+  serialDataManagerThread = new SerialDataManagerThread(serialDataManager);
+  t = new Thread(serialDataManagerThread);
+  t.start();
+  // serialDataManagerThread.start();
+
   for (int i = 0; i < 14; i++) {
     foo.add((byte) 0);
   }
@@ -88,8 +98,9 @@ void setup() {
 }
 
 void draw() {
+  // println(frameCount);
   background(#BFFF95);
-  updateBytes();
+  // updateBytes();
   updateVirtualBoards();
 
   if (debug) {
@@ -103,4 +114,6 @@ void draw() {
       println();
     }
   }
+
+  serialDataManager.readBuffer();
 }
