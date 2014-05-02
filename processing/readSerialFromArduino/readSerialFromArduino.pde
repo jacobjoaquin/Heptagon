@@ -12,37 +12,14 @@ byte[] serialBytes = new byte[nSerialBytes];
 Serial port;
 int serialRate = 9600;
 int[] inputs = new int[N_INPUTS];
-Boolean debug = true;
-ArrayList<Integer> theBytes = new ArrayList<Integer>();
+Boolean debug = false;
+ArrayList<Byte> theBytes = new ArrayList<Byte>();
 ArrayList<Chip> chips = new ArrayList<Chip>();
+ArrayList<Byte> foo = new ArrayList<Byte>();
 
-
-void updateInputs() {
-  while(port.available() > 0) {
-    serial = port.readStringUntil(endOfLine);
-  }
-  
-  if (serial != null) {
-    String[] values = split(serial, ',');
-    int L = values.length - 1;
-    
-    for (int i = 0; i < L; i += 2) {
-      int index = Integer.parseInt(values[i]);
-      if (index < N_INPUTS) {
-        int value = Integer.parseInt(values[i + 1]);
-        inputs[index] = value;
-        print(index + ", " + value + "    " + frameCount + "\n");
-      }
-    }
-    
-    serial = null;
-  }  
-}
 
 void updateBytes() {
   int available = port.available();
-
-  
   
   if (available > 0) {
     serialBytes = port.readBytes();
@@ -55,22 +32,16 @@ void updateBytes() {
     }
 
     for (int i = 0; i < available; i++) {
-      theBytes.add((int) serialBytes[i]);
+      theBytes.add((byte) serialBytes[i]);
       serialBytes[i] = 0;
     }
-    
-    println(theBytes);
-    
 
     for (int i = 0; i < (int) (theBytes.size() / 2); i++) {
-      int index = theBytes.remove(0);
-      int value = theBytes.remove(0);
-
-      inputs[index] = value;
-      println(index + ", " + value);      
+      byte index = theBytes.remove(0);
+      byte value = theBytes.remove(0);
+      Chip c = chips.get(index);
+      c.pins = value;
     }
-//    java.util.Arrays.fill(serialBytes, 0)
-//    clearInputs();
   }
 }
 
@@ -91,7 +62,7 @@ void updateVirtualBoards() {
 }
 
 void setup() {
-  size(N_INPUTS * 4, 400);
+  size(274, 550);
   frameRate(60);
   println(Serial.list());
   port = new Serial(this, Serial.list()[2], serialRate);
@@ -100,21 +71,36 @@ void setup() {
   serial = null;  
   clearInputs();
 
-  chips.add(new Chip(50.0, 50.0, false));
-  chips.add(new Chip(100.0, 50.0, true));
+  for (int i = 0; i < 14; i++) {
+    foo.add((byte) 0);
+  }
+      
+  int byteIndex = 0;
+  for (int i = CHIPS_PER_BOARD - 1; i >= 0; i--) {
+    chips.add(new Chip(200, (Chip.h + 6) * i + 24, true, foo.get(byteIndex)));
+    byteIndex++;
+  }
+
+  for (int i = 0; i < CHIPS_PER_BOARD; i++) {
+    chips.add(new Chip(50, (Chip.h + 6) * i + 24, false, foo.get(byteIndex)));
+    byteIndex++;
+  }
 }
 
 void draw() {
   background(#BFFF95);
   updateBytes();
   updateVirtualBoards();
-  // for (int board = 0; board < 2; board++) {
-  //   for (int i = 0; i < N_INPUTS / 2; i++) {
-  //     color c = color(inputs[i] * 255);
-  //     fill(c);
-  //     noStroke();
-  //     int offset = i * 4;
-  //     rect(offset, 0, 4, height);
-  //   }    
-  // }
+
+  if (debug) {
+    if (frameCount % 60 == 0) {
+      for (Chip c : chips) {
+        for (int i = 0; i < 8; i++) {
+          print((c.pins >> i) & 0x01);
+        }
+        println();
+      }
+      println();
+    }
+  }
 }

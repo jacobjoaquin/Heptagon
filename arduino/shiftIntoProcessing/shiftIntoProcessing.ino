@@ -16,15 +16,8 @@ void updateBytes() {
   for(int i = NBYTES - 1; i >= 0; i--) {
     byte thisByte = shiftIn(DATA, CLOCK, MSBFIRST);
     if (thisByte != bytes[i]) {
-      for (int j = 7; j >= 0; j--) {
-        byte newBit = (thisByte >> j) & 1;
-        byte oldBit = (bytes[i] >> j) & 1;
-        if (newBit != oldBit) {
-          byte temp[2] = {i * 8 + j, newBit};
-          Serial.write(temp, 2);
-        }
-      }
-      
+      byte temp[2] = {i, thisByte};
+      Serial.write(temp, 2);
       bytes[i] = thisByte;
     }
   }
