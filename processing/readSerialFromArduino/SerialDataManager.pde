@@ -7,7 +7,6 @@ public class SerialDataManager {
 
 	// Data that comes in from serial, which is placed into the buffer
 	public synchronized void readSerial() {
-		// println("readSerial()");
 		int nBytesAvailable = port.available();
 	  
 		if (nBytesAvailable > 0) {
@@ -18,8 +17,6 @@ public class SerialDataManager {
 		      serialBytes[i] = 0;
 		    }
 		}
-
-		// println(buffer);
 	}
 
 	// Buffer data to be applied to sketch in Processing loop.

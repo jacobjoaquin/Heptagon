@@ -21,34 +21,6 @@ ArrayList<Byte> foo = new ArrayList<Byte>();
 SerialDataManager serialDataManager;
 SerialDataManagerThread serialDataManagerThread;
 Thread t;
-
-void updateBytes() {
-  int available = port.available();
-  
-  if (available > 0) {
-    serialBytes = port.readBytes();
-    
-    if (debug) {
-      println("=== " + frameCount + " ===");
-      println("avaialable bytes total: " + available);
-      println("avaialable bytes:");
-      println(serialBytes);
-    }
-
-    for (int i = 0; i < available; i++) {
-      theBytes.add((byte) serialBytes[i]);
-      serialBytes[i] = 0;
-    }
-
-    for (int i = 0; i < (int) (theBytes.size() / 2); i++) {
-      byte index = theBytes.remove(0);
-      byte value = theBytes.remove(0);
-      Chip c = chips.get(index);
-      c.pins = value;
-    }
-  }
-}
-
   
 void clearInputs() {
   for (int i = 0; i < nSerialBytes; i++) {
@@ -98,9 +70,7 @@ void setup() {
 }
 
 void draw() {
-  // println(frameCount);
   background(#BFFF95);
-  // updateBytes();
   updateVirtualBoards();
 
   if (debug) {
