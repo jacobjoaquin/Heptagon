@@ -54,18 +54,32 @@ class Chip {
 		translate(0, 16);
 		fill(255, 0, 0);
 
-		for (int i = 0; i < 4; i++) {
-			if ((0x01 & (pins >> i)) == 1)  {
-				rect(-8, (3 - i) * 8, 8, 4);
+		// Right Column
+		if (flip) {
+			for (int i = 0; i < 8; i++) {
+				if ((0x01 & (pins >> i)) == 1)  {
+					if (i < 4) {
+						rect(w, (3 - i) * 8, 8, 4);
+					}
+					else {
+						rect(-8, (i - 4) * 8, 8, 4);
+					}
+				}
 			}
 		}
-
-		for (int i = 4; i < 8; i++) {
-			if ((0x01 & (pins >> i)) == 1)  {
-				rect(w, (3 - (i - 4)) * 8, 8, 4);
+		// Left Column
+		else {
+			for (int i = 0; i < 8; i++) {
+				if ((0x01 & (pins >> i)) == 1)  {
+					if (i < 4) {
+						rect(-8, (3 - i) * 8, 8, 4);
+					}
+					else {
+						rect(w, (7 - i) * 8, 8, 4);
+					}
+				}
 			}
 		}
-
 
 		popMatrix();
 		popStyle();
