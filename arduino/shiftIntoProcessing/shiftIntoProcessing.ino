@@ -7,7 +7,6 @@ const int NBYTES = 14;
 byte bytes[NBYTES];
 
 void updateBytes() {
-  // delay(500);
   digitalWrite(CLOCK, HIGH);
   digitalWrite(LATCH, LOW);
   delayMicroseconds(PULSE);
@@ -31,7 +30,7 @@ void setup() {
   digitalWrite(CLOCK, LOW);
   digitalWrite(LATCH, HIGH);    
   for (unsigned int i = 0; i < NBYTES; i++) {
-    bytes[0] = 0;
+    bytes[i] = 0;
   }
 }
 
