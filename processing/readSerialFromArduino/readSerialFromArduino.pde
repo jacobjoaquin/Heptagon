@@ -41,7 +41,7 @@ void setup() {
   size(274, 550);
   frameRate(60);
   println(Serial.list());
-  port = new Serial(this, Serial.list()[2], serialRate);
+  port = new Serial(this, "/dev/cu.usbmodem38791", serialRate);
   port.clear();
   serial = port.readStringUntil(endOfLine);
   serial = null;  
