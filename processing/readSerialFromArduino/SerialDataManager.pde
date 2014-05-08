@@ -8,7 +8,7 @@ public class SerialDataManager {
 	// Data that comes in from serial, which is placed into the buffer
 	public synchronized void readSerial() {
 		int nBytesAvailable = port.available();
-	  
+
 		if (nBytesAvailable > 0) {
 		    serialBytes = port.readBytes();
 
@@ -21,11 +21,21 @@ public class SerialDataManager {
 
 	// Buffer data to be applied to sketch in Processing loop.
 	public synchronized void readBuffer() {
-		while (buffer.size() > 1) {
-	      byte index = buffer.remove(0);
-	      byte value = buffer.remove(0);
-	      Chip c = chips.get(index);
-	      c.pins = value;
+		while (buffer.size() > 2) {
+			byte index = buffer.remove(0);
+			byte v0 = buffer.remove(0);
+			byte v1 = buffer.remove(0);
+
+			// Digital input bytes
+			if (index < 14) {
+				Chip c = chips.get(index);
+				c.pins = v0;
+			}
+			// Analog input bytes
+			else {
+				int v = ((v0 << 8) & 0xFF00) + (v1 & 0xFF);
+				println(index + ",  " + v0 + ", " + v1 + ", " + v);
+			}
 		}
 	}
 }

@@ -1,14 +1,12 @@
 const int PULSE = 0;
 const int LATCH = 9;
-//const int SLAVE_SELECT = 10;
 const int DATA = 12;
 const int CLOCK = 13;
 const long RATE = 38400;
 const int NBYTES = 14;
+const int NUINTS = 1;
 byte bytes[NBYTES];
-
-unsigned long LEDTimer = 0;
-int LEDState = 1;
+unsigned int uints[NUINTS];
 
 void updateBytes() {
   digitalWrite(CLOCK, HIGH);
@@ -18,11 +16,26 @@ void updateBytes() {
 
   for(int i = NBYTES - 1; i >= 0; i--) {
     byte thisByte = shiftIn(DATA, CLOCK, MSBFIRST);
+
     if (thisByte != bytes[i]) {
-      byte temp[2] = {i, thisByte};
-      Serial.write(temp, 2);
+      byte temp[3] = {i, thisByte, 0};
+      Serial.write(temp, 3);
       bytes[i] = thisByte;
     }
+  }
+}
+
+long counter = 0;
+unsigned int value = 0;
+void updateAnalog() {
+  if (counter <= millis()) {
+    counter = millis() + 100;;
+    uints[0] = random(0, 1024);
+    byte v0 = 128;
+    byte v1 = 64;
+    byte temp[3] = {15, value >> 8, value & 0xFF};
+    Serial.write(temp, 3);
+    value = (value + 1) % 1024;
   }
 }
 
@@ -32,13 +45,16 @@ void setup() {
   pinMode(CLOCK, OUTPUT);
   pinMode(DATA, INPUT);
   digitalWrite(CLOCK, LOW);
-  digitalWrite(LATCH, HIGH);    
+  digitalWrite(LATCH, HIGH);
   for (unsigned int i = 0; i < NBYTES; i++) {
     bytes[i] = 0;
+  }
+  for (unsigned int i = 0; i < NUINTS; i++) {
+    uints[i] = 0;
   }
 }
 
 void loop() {
   updateBytes();
+  updateAnalog();
 }
-
