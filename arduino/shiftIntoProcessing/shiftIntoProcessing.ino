@@ -4,9 +4,14 @@ const int DATA = 12;
 const int CLOCK = 13;
 const long RATE = 38400;
 const int NBYTES = 14;
-const int NUINTS = 1;
+const int NUINTS = 18;
+
 byte bytes[NBYTES];
+
+
 unsigned int uints[NUINTS];
+unsigned int analogs[] = {A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12,
+                          A13, A14, A15, A16, A17};
 
 // For debugging purposes
 long counter = 0;
@@ -47,10 +52,10 @@ void updateAnalog() {
     for (int i = 0; i < NUINTS; i++) {
       int offset = i + NBYTES;
 
-      unsigned int value = analogRead(A0);
+      unsigned int value = analogRead(analogs[i]);
 
       if (uints[0] != value) {
-        byte temp[3] = {14, (value >> 8) & 0xFF, value & 0xFF};
+        byte temp[3] = {offset, (value >> 8) & 0xFF, value & 0xFF};
         Serial.write(temp, 3);
         uints[0] = value;
       }
