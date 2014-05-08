@@ -1,6 +1,7 @@
-const int PULSE = 5;
-const int LATCH = 8;
-const int DATA = 11;
+const int PULSE = 0;
+const int LATCH = 9;
+//const int SLAVE_SELECT = 10;
+const int DATA = 12;
 const int CLOCK = 13;
 const long RATE = 38400;
 const int NBYTES = 14;
@@ -40,3 +41,4 @@ void setup() {
 void loop() {
   updateBytes();
 }
+
