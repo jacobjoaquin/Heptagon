@@ -15,18 +15,17 @@ class Pot {
 		pushMatrix();
 		pushStyle();
 		translate(location.x, location.y);
-		fill(180);
+		fill(0);
 		stroke(128);
 		rect(0, 0, w, h);
 
-		color c = lerpColor(color(255, 255, 0), color(255, 0, 0), norm(value, 0, 1024));
-		fill(c);
+		fill(255, 0, 0);
 		noStroke();
 		rect(1, h, w, map(value, 0, 1024, 0, -h));
 
-		fill(0);
 		textSize(10);
 		textAlign(CENTER);
+		fill(255);
 		text("A" + index, w / 2, h / 2);
 		popStyle();
 		popMatrix();
