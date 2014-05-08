@@ -27,12 +27,12 @@ public class SerialDataManager {
 			byte v1 = buffer.remove(0);
 
 			// Digital input bytes
-			if (index < 14) {
+			if (index < 14 && index >= 0) {
 				Chip c = chips.get(index);
 				c.pins = v0;
 			}
 			// Analog input bytes
-			else {
+			else if (index == 14) {
 				int v = ((v0 << 8) & 0xFF00) + (v1 & 0xFF);
 				println(index + ",  " + v0 + ", " + v1 + ", " + v);
 			}

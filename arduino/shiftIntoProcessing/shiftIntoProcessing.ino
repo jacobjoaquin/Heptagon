@@ -8,6 +8,21 @@ const int NUINTS = 1;
 byte bytes[NBYTES];
 unsigned int uints[NUINTS];
 
+// For debugging purposes
+long counter = 0;
+unsigned int value = 0;
+void simulateAnalogInput() {
+  if (counter <= millis()) {
+    counter = millis() + 100;;
+    uints[0] = random(0, 1024);
+    byte v0 = 128;
+    byte v1 = 64;
+    byte temp[3] = {15, value >> 8, value & 0xFF};
+    Serial.write(temp, 3);
+    value = (value + 1) % 1024;
+  }
+}
+
 void updateBytes() {
   digitalWrite(CLOCK, HIGH);
   digitalWrite(LATCH, LOW);
@@ -25,17 +40,21 @@ void updateBytes() {
   }
 }
 
-long counter = 0;
-unsigned int value = 0;
+unsigned long pause = 0;
 void updateAnalog() {
-  if (counter <= millis()) {
-    counter = millis() + 100;;
-    uints[0] = random(0, 1024);
-    byte v0 = 128;
-    byte v1 = 64;
-    byte temp[3] = {15, value >> 8, value & 0xFF};
-    Serial.write(temp, 3);
-    value = (value + 1) % 1024;
+  if (pause <= millis()) {
+    pause = millis() + 16;
+    for (int i = 0; i < NUINTS; i++) {
+      int offset = i + NBYTES;
+
+      unsigned int value = analogRead(A0);
+
+      if (uints[0] != value) {
+        byte temp[3] = {14, (value >> 8) & 0xFF, value & 0xFF};
+        Serial.write(temp, 3);
+        uints[0] = value;
+      }
+    }
   }
 }
 
@@ -57,4 +76,5 @@ void setup() {
 void loop() {
   updateBytes();
   updateAnalog();
+  // simulateAnalogInput();
 }
