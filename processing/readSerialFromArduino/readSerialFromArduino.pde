@@ -10,7 +10,7 @@ String serial;
 int nSerialBytes = 256;
 byte[] serialBytes = new byte[nSerialBytes];
 Serial port;
-int serialRate = 9600;
+int serialRate = 38400;
 int[] inputs = new int[N_INPUTS];
 Boolean debug = false;
 ArrayList<Byte> theBytes = new ArrayList<Byte>();

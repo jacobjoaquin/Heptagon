@@ -1,10 +1,13 @@
 const int PULSE = 5;
 const int LATCH = 8;
 const int DATA = 11;
-const int CLOCK = 12;
-const long RATE = 9600;
+const int CLOCK = 13;
+const long RATE = 38400;
 const int NBYTES = 14;
 byte bytes[NBYTES];
+
+unsigned long LEDTimer = 0;
+int LEDState = 1;
 
 void updateBytes() {
   digitalWrite(CLOCK, HIGH);
