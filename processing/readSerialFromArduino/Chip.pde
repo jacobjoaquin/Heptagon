@@ -11,10 +11,6 @@ class Chip {
 		pins = pins_;
 	}
 
-	void update() {
-		// pins = pins_;
-	}
-
 	void draw() {
 		int arcOffset = h;
 		float arc1 = PI;
