@@ -1,7 +1,10 @@
 const int PULSE = 0;
-const int LATCH = 9;
-const int DATA = 12;
-const int CLOCK = 13;
+// const int LATCH = 9;
+// const int DATA = 12;
+// const int CLOCK = 13;
+const int DATA = 4;
+const int CLOCK = 3;
+const int LATCH = 2;
 const long RATE = 38400;
 const int NBYTES = 14;
 const int NUINTS = 18;
