@@ -3,13 +3,17 @@
 */
 
 const int PULSE = 5;
-const int LATCH = 8;
-const int DATA = 11;
-const int CLOCK = 12;
-const int OUTPUT_ENABLE = 9;
+const int LATCH = 1;
+const int CLOCK = 2;
+const int OUTPUT_ENABLE = 3;
+const int DATA = 4;
 const long RATE = 9600;
-const int NBYTES = 2;
+const int NBYTES = 1;
 byte bytes[NBYTES];
+
+int t = 0;
+int flip = 0;
+bool booting = true;
 
 void updateBytes() {
   digitalWrite(LATCH, LOW);
@@ -22,47 +26,35 @@ void updateBytes() {
 
 void setCurrent() {
   // 1
-  digitalWrite(CLOCK, HIGH);  
+  digitalWrite(CLOCK, HIGH);
   digitalWrite(OUTPUT_ENABLE, HIGH);
-  digitalWrite(LATCH, LOW);  
+  digitalWrite(LATCH, LOW);
 
-  digitalWrite(CLOCK, LOW);  
+  digitalWrite(CLOCK, LOW);
   digitalWrite(OUTPUT_ENABLE, LOW);
-  
-  // 2
-  digitalWrite(CLOCK, HIGH);  
 
-  digitalWrite(CLOCK, LOW);  
+  // 2
+  digitalWrite(CLOCK, HIGH);
+
+  digitalWrite(CLOCK, LOW);
   digitalWrite(OUTPUT_ENABLE, HIGH);
 
   // 3
-  digitalWrite(CLOCK, HIGH);  
+  digitalWrite(CLOCK, HIGH);
 
-  digitalWrite(CLOCK, LOW);  
-  digitalWrite(LATCH, HIGH);  
+  digitalWrite(CLOCK, LOW);
+  digitalWrite(LATCH, HIGH);
 
   // 4
-  digitalWrite(CLOCK, HIGH);  
-  digitalWrite(CLOCK, LOW);  
-  digitalWrite(LATCH, LOW);  
+  digitalWrite(CLOCK, HIGH);
+  digitalWrite(CLOCK, LOW);
+  digitalWrite(LATCH, LOW);
 
   // 5
   digitalWrite(CLOCK, HIGH);
-  digitalWrite(CLOCK, LOW);  
-  
-// 
-//  byte b0 = 0B00000000;
-//  byte b1 = 0B11110000;
-//  for (int i = 0; i < 8; i++) {
-//    shiftOut(DATA, CLOCK, LSBFIRST, b0);
-//  }
-//  
-//  for (int i = 0; i < 8; i++) {
-//    shiftOut(DATA, CLOCK, LSBFIRST, b1);
-//  }
+  digitalWrite(CLOCK, LOW);
 
-  
-  // Resume
+ // Resume
   digitalWrite(OUTPUT_ENABLE, LOW);
 }
 
@@ -72,6 +64,7 @@ void setup() {
   pinMode(CLOCK, OUTPUT);
   pinMode(DATA, OUTPUT);
   pinMode(OUTPUT_ENABLE, OUTPUT);
+  pinMode(13, OUTPUT);
   digitalWrite(OUTPUT_ENABLE, LOW);
   digitalWrite(CLOCK, LOW);
   digitalWrite(LATCH, HIGH);
@@ -79,16 +72,30 @@ void setup() {
     bytes[i] = 255;
   }
 
-  setCurrent();  
+  setCurrent();
   updateBytes();
 }
 
 void loop() {
-  updateBytes();
+ updateBytes();
 
-  for (int i = 0; i < NBYTES; i++) {
-    bytes[i]++;
+  if (booting) {
+    booting = false;
+
+    for (int i = 0; i < 10; i++) {
+      digitalWrite(13, HIGH);
+      delay(50);
+      digitalWrite(13, LOW);
+      delay(50);
+    }
   }
- 
-  delay(50);
+  else {
+    for (int i = 0; i < NBYTES; i++) {
+      bytes[i]++;
+    }
+
+    delay(100);
+    flip = 1 - flip;
+    digitalWrite(13, flip);
+  }
 }

@@ -94,5 +94,12 @@ void draw() {
   background(0);
   // mp.update();
   // mp.display();
+  if (frameCount % 5 == 0) {
+    float value = 440.0 * pow(2.0, (random(0, 12) / 12.0));
+    cs.event("i 1 0 0.25 0.5 " + value);
+    float value2 = value * pow(2.0, 3.0 / 12.0);
+    cs.event("i 1 0 0.25 0.5 " + value2);
+  }
 }
+
 

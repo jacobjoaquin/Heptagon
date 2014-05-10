@@ -3,30 +3,32 @@
 */
 
 const int PULSE = 5;
-const int LATCH = 8;
-const int DATA = 11;
-const int CLOCK = 12;
-const int OUTPUT_ENABLE = 9;
+const int LATCH = 9;
+const int CLOCK = 10;
+const int OUTPUT_ENABLE = 11;
+const int DATA = 12;
 const long RATE = 9600;
-const int NBYTES = 2;
+const int NBYTES = 1;
 byte bytes[NBYTES];
 
-void updateBytes() {
-  digitalWrite(LATCH, LOW);
+int t = 0;
+int flip = 0;
+bool booting = true;
 
+int allFlip = 0;
+
+void updateBytes() {
+  delay(50);
+  digitalWrite(LATCH, LOW);
+  delay(50);
   for(int i = NBYTES - 1; i >= 0; i--) {
     shiftOut(DATA, CLOCK, MSBFIRST, bytes[i]);
   }
   digitalWrite(LATCH, HIGH);
 
   for (int i = 0; i < NBYTES; i++) {
-    if (i % 2) {
-      bytes[i]++;
-    }
-    else {
-      bytes[i]--;
-    }
-  }  
+    bytes[i]++;
+  }
 }
 
 void setup() {
@@ -35,15 +37,62 @@ void setup() {
   pinMode(CLOCK, OUTPUT);
   pinMode(DATA, OUTPUT);
   pinMode(OUTPUT_ENABLE, OUTPUT);
+  pinMode(13, OUTPUT);
   digitalWrite(OUTPUT_ENABLE, LOW);
   digitalWrite(CLOCK, LOW);
   digitalWrite(LATCH, HIGH);
   for (unsigned int i = 0; i < NBYTES; i++) {
-    bytes[i] = 0;
+    bytes[i] = 255;
   }
+  updateBytes();
 }
 
 void loop() {
-  updateBytes();
-  delay(500);
+
+// digitalWrite(LATCH, LOW);
+// digitalWrite(CLOCK, LOW);
+// digitalWrite(DATA, LOW);
+// digitalWrite(OUTPUT_ENABLE, LOW);
+
+  // digitalWrite(LATCH, HIGH);
+// digitalWrite(CLOCK, HIGH);
+// digitalWrite(OUTPUT_ENABLE, HIGH);
+// digitalWrite(DATA, HIGH);
+
+
+  // while(true) {}
+
+  if (booting) {
+    booting = false;
+
+    for (int i = 0; i < 10; i++) {
+      digitalWrite(13, HIGH);
+      delay(50);
+      digitalWrite(13, LOW);
+      delay(50);
+    }
+  }
+  else {
+    // for (int i = 0; i < NBYTES; i++) {
+    //   bytes[i]++;
+    // }
+    // onOff();
+
+    delay(100);
+    flip = 1 - flip;
+    digitalWrite(13, flip);
+  }
+}
+
+
+void onOff() {
+  allFlip = 1 - allFlip;
+  for (int i = 0; i < NBYTES; i++) {
+    if (allFlip) {
+      bytes[i] = 0xFF;
+    }
+    else {
+      bytes[i] = 0;
+    }
+  }
 }
