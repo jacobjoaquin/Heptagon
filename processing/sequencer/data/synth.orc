@@ -75,3 +75,6 @@ instr 5
     out a1 + a2
 endin
 
+; Do nothing
+instr 1000
+endin

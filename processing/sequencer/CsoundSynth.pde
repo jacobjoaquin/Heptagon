@@ -3,17 +3,18 @@ import java.lang.StringBuilder;
 
 class CsoundSynth {
 	Csound cs;
-	private CsoundPerformanceThread csPerf;
+	CsoundPerformanceThread csPerf;
 	StringBuilder eventBuffer;
 
 	CsoundSynth() {
+		eventBuffer = new StringBuilder(4096);
 		cs = new Csound();
 		csPerf = new CsoundPerformanceThread(cs);
 		cs.SetOption("-odac");
 		loadOrc();
 		cs.Start();
 		csPerf.Play();
-		eventBuffer = new StringBuilder(4096);
+		cs.ReadScore("i 1000 0 1000");
 	}
 
 	private void loadOrc() {
@@ -27,7 +28,6 @@ class CsoundSynth {
 		}
 
 		cs.CompileOrc(sb.toString());
-		println(sb.toString());
 	}
 
 	void event(String s) {
