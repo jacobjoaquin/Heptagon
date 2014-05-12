@@ -8,7 +8,7 @@ const int CLOCK = 10;
 const int OUTPUT_ENABLE = 11;
 const int DATA = 12;
 const long RATE = 9600;
-const int NBYTES = 1;
+const int NBYTES = 2;
 byte bytes[NBYTES];
 
 int t = 0;

@@ -4,13 +4,30 @@ ksmps = 100
 nchnls = 2
 0dbfs = 1.0
 
-giMasterVolume = 0.25;
+giMasterVolume = 0.25
+gaFeedBackLeft = 0
+gaFeedBackRight = 0
 
 ; Tables
 gitemp ftgen 1, 0, 8192, 10, 1
 
 ; Setup
 instr 1
+	; Master
+	chn_k "masterTune", 1
+	chnset 1, "masterTune"
+	chn_a "masterLeft", 1
+	chn_a "masterRight", 1
+
+	; Delay
+	chn_k "delayLeftAmount", 1
+	chn_k "delayRightAmount", 1
+	chn_k "delayFeedBack", 1
+	chnset 0, "delayLeftAmount"
+	chnset 0, "delayRightAmount"
+	chnset 0, "delayFeedBack"
+
+	; Reverb
 	chn_k "reverbSize", 1
 	chn_a "reverbLeft", 1
 	chn_a "reverbRight", 1
@@ -24,6 +41,8 @@ instr 2
 
 	chnset azero, "reverbLeft"
 	chnset azero, "reverbRight"
+	chnset azero, "masterLeft"
+	chnset azero, "masterRight"
 endin
 
 ; Turn off an instrument
@@ -92,25 +111,73 @@ endin
 
 ; DTMF
 instr 105
+	ktune chnget "masterTune"
 	idur = p3
     ifreq1 = p4
     ifreq2 = p5
 
-    a1 oscil 0.4, ifreq1, 1, -1
-    a2 oscil 0.4, ifreq2, 1, -1
+    a1 oscil 0.4, ifreq1 * ktune, 1, -1
+    a2 oscil 0.4, ifreq2 * ktune, 1, -1
     ae linseg 0, 0.01, 1, idur - 0.02, 1, 0.01, 0
     amix = (a1 + a2) * ae
     chnmix amix, "reverbLeft"
     chnmix amix, "reverbRight"
+    chnmix amix, "masterLeft"
+    chnmix amix, "masterRight"
+endin
+
+; Sampler
+instr 106
+	idur = p3
+	iamp = p4
+	SFile = p5
+	ipch = p6
+
+	a1, a2 diskin2 SFile, ipch
+	outs a1, a1
 endin
 
 ; Reverb
 instr 500
-	ksize chnget "reverbSize"
-	ksize port ksize, 0.01
+	; Input
 	aleft chnget "reverbLeft"
 	aright chnget "reverbRight"
 
-	a1, a2 freeverb aleft, aright, ksize, ksize
-	outs a1 * giMasterVolume, a2 * giMasterVolume
+	; Pre-delay
+	kdlamt chnget "delayLeftAmount"
+	kdramt chnget "delayRightAmount"
+	kdfb chnget "delayFeedBack"
+	kdlamt port kdlamt, 1
+	kdramt port kdramt, 1
+	kdfb port kdfb, 1
+	ad1 vdelay aleft + gaFeedBackLeft, kdlamt, 2000
+	ad2 vdelay aright + gaFeedBackRight, kdramt, 2000
+
+	; Feedback
+	gaFeedBackLeft vdelay (ad1 + gaFeedBackLeft) * kdfb, kdlamt, 2000
+	gaFeedBackRight vdelay (ad2 + gaFeedBackRight) * kdfb, kdlamt, 2000
+
+	; Reverb
+	ksize chnget "reverbSize"
+	ksize port ksize, 0.01
+
+	a1, a2 freeverb ad1, ad2, ksize, ksize
+
+    chnmix a1, "masterLeft"
+    chnmix a2, "masterRight"
+endin
+
+
+; Master out
+instr 600
+	; Wet / Dry
+
+	a1 chnget "masterLeft"
+	a2 chnget "masterRight"
+
+	a1 = a1 * giMasterVolume
+	a2 = a2 * giMasterVolume
+	a1 limit a1, -1, 1
+	a2 limit a2, -1, 1
+	outs a1, a2
 endin

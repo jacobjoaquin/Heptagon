@@ -14,9 +14,10 @@ class CsoundSynth {
 		loadOrc();
 		cs.Start();
 		csPerf.Play();
-		event("i 1 0 1\n");
-		event("i 2 0 -1\n");
-		event("i 500 0 -1\n");
+		event("i 1 0 1\n");     // Setup
+		event("i 2 0 -1\n");    // Clear Chn
+		event("i 500 0 -1\n");  // Reverb FX
+		event("i 600 0 -1\n");  // Master Output
 		update();
 		// println(cs.KR);
 	}

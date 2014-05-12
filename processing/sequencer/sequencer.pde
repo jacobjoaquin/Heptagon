@@ -38,15 +38,27 @@ void draw() {
   sw.update();
   sw.display();
 
-  if (frameCount % 60 == 0) {
-    phoneSynth.play(counter);
+  if (frameCount % 120 == 0) {
+    phoneSynth.play((int) random(10));
     counter = (counter + 1) % 10;
   }
 
   cs.update();
 
+  if (frameCount % 14 == 0) {
+    cs.cs.SetChannel("masterTune", random(0.5, 2.0));
+  }
 
   if (frameCount % 17 == 0) {
     cs.cs.SetChannel("reverbSize", random(0, 1));
   }
+  if (frameCount % 88 == 0) {
+    cs.cs.SetChannel("delayLeftAmount", random(0, 2000));
+    cs.cs.SetChannel("delayRightAmount", random(0, 2000));
+  }
+
+  if (frameCount % 111 == 0) {
+    cs.cs.SetChannel("delayFeedBack", random(0, 0.45));
+  }
+
 }

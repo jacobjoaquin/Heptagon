@@ -111,7 +111,7 @@ class PhoneSynth {
 
 	private void event(int p4, int p5) {
 		turnoffInstr(instr);
-		cs.event("i " + instr + " " + kDelay + " 0.125 " + p4 + " " + p5 + "\n");
+		cs.event("i " + instr + " " + kDelay + " 0.5 " + p4 + " " + p5 + "\n");
 	}
 
 	private ArrayList<Integer> getTones(int x, int y) {
