@@ -4,12 +4,18 @@ import moonpaper.opcodes.*;
 MyOPC opc;
 Moonpaper mp;
 StackPGraphics stackpg;
-int w = 250 * 5;
+int w = 250 * 1;
 PGraphics img;
 Phasor phasor = new Phasor(1 / 255.0);
 PHSB phsb = new PHSB();
 
 CsoundSynth cs;
+PhoneSynth phoneSynth;
+
+void setupSynth() {
+  cs = new CsoundSynth();
+  phoneSynth = new PhoneSynth(cs);
+}
 
 void createSequence() {
   mp = new Moonpaper(this);
@@ -31,12 +37,12 @@ void createSequence() {
 
   mp.seq(new PushCel(cel0, new Scroller()));
   mp.seq(new Wait(w));                    // Wait for 250 frames
+/*
   Sparkle sparkle2 = new Sparkle();
   sparkle2.threshold = 128;
   sparkle2.nDots = 2000;
   mp.seq(new PushCel(cel0, sparkle2));
   mp.seq(new Wait(w));                    // Wait for 250 frames
-
   RainDots rainDots = new RainDots(10);
   rainDots.setBlendMode(SCREEN);
   mp.seq(new PushCel(cel0, rainDots));
@@ -79,27 +85,27 @@ void createSequence() {
   mp.seq(new Wait(w / 2));
   mp.seq(new PopCel(cel0));
   mp.seq(new CrossFade(120, cel1, cel0));
+*/
 }
 
 void setup() {
-  size(200, 200, P2D);
-//  opc = new MyOPC(this, "127.0.0.1", 7890);
-//  opc.myGrid();
-  cs = new CsoundSynth();
-  // createSequence();
+  size(14, 70, P2D);
+  opc = new MyOPC(this, "127.0.0.1", 7890);
+  opc.myGrid();
+  setupSynth();
+  createSequence();
   // phsb.setPalette(new Palette_foo());
 }
 
+int counter = 0;
 void draw() {
   background(0);
-  // mp.update();
-  // mp.display();
-  if (frameCount % 5 == 0) {
-    float value = 440.0 * pow(2.0, (random(0, 12) / 12.0));
-    cs.event("i 1 0 0.25 0.5 " + value);
-    float value2 = value * pow(2.0, 3.0 / 12.0);
-    cs.event("i 1 0 0.25 0.5 " + value2);
+  mp.update();
+  mp.display();
+
+  if (frameCount % 8 == 0) {
+    phoneSynth.play(counter);
+    counter = (counter + 1) % 10;
   }
+  cs.update();
 }
-
-

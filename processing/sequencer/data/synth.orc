@@ -1,6 +1,6 @@
 sr = 44100
-kr = 4410
-ksmps = 10
+kr = 735
+ksmps = 60
 nchnls = 1
 0dbfs = 1.0
 
@@ -64,7 +64,7 @@ instr 4
 endin
 
 
-; DMFT
+; DTMF
 instr 5
     ifreq1 = p4
     ifreq2 = p5
