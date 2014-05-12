@@ -12,6 +12,10 @@ CsoundSynth cs;
 PhoneSynth phoneSynth;
 SineWave sw;
 
+void turnoffInstr(int i) {
+  cs.event("i 10 0 1 " + i + "\n");
+}
+
 void setupSynth() {
   cs = new CsoundSynth();
   phoneSynth = new PhoneSynth(cs);
@@ -34,7 +38,7 @@ void draw() {
   sw.update();
   sw.display();
 
-  if (frameCount % 8 == 0) {
+  if (frameCount % 2 == 0) {
     phoneSynth.play(counter);
     counter = (counter + 1) % 10;
   }

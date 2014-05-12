@@ -15,6 +15,7 @@ class CsoundSynth {
 		cs.Start();
 		csPerf.Play();
 		cs.ReadScore("i 1000 0 1000");
+		// println(cs.KR);
 	}
 
 	private void loadOrc() {
@@ -33,13 +34,15 @@ class CsoundSynth {
 	void event(String s) {
 		// cs.ReadScore(s);
 		eventBuffer.append(s);
-		eventBuffer.append("\n");
+		// eventBuffer.append("\n");
 	}
 
 	void update() {
 		if (eventBuffer.length() > 0) {
 			cs.ReadScore(eventBuffer.toString());
+			println(eventBuffer.toString());
 			eventBuffer.delete(0, eventBuffer.length());
+
 		}
 	}
 }

@@ -1,11 +1,21 @@
 sr = 44100
-kr = 735
-ksmps = 60
+kr = 441
+ksmps = 100
 nchnls = 1
 0dbfs = 1.0
 
+gitemp ftgen 1, 0, 8192, 10, 1
+
+; Turn off an instrument
+instr 10
+	turnoff2 p4, 0, 0
+	turnoff
+endin
+
+
+
 ; Test
-instr 1
+instr 101
 	idur = p3
 	iamp = p4
 	ifreq = p5
@@ -15,7 +25,7 @@ instr 1
 endin
 
 ; Classic Computer S&H
-instr 2
+instr 102
 	idur = p3
 	iamp = p4
 	ifreq1 = p5
@@ -30,7 +40,7 @@ endin
 
 
 ; Modem
-instr 3
+instr 103
     iamp = p4   ; Amplitude
     ibps = p5   ; Bits per second
     ifreq = p6  ; Frequency of carrier
@@ -45,7 +55,7 @@ instr 3
 endin
 
 ; Bit Shift Register Synth
-instr 4
+instr 104
     idiv = int(p4)  ; Integer division of clock. Range 1 - 32.
     itab = p5       ; Selects the waveform
 
@@ -65,12 +75,12 @@ endin
 
 
 ; DTMF
-instr 5
+instr 105
     ifreq1 = p4
     ifreq2 = p5
 
-    a1 oscils 0.4, ifreq1, 0
-    a2 oscils 0.4, ifreq2, 0
+    a1 oscil 0.4, ifreq1, 1, -1
+    a2 oscil 0.4, ifreq2, 1, -1
 
     out a1 + a2
 endin
