@@ -38,10 +38,15 @@ void draw() {
   sw.update();
   sw.display();
 
-  if (frameCount % 2 == 0) {
+  if (frameCount % 60 == 0) {
     phoneSynth.play(counter);
     counter = (counter + 1) % 10;
   }
 
   cs.update();
+
+
+  if (frameCount % 17 == 0) {
+    cs.cs.SetChannel("reverbSize", random(0, 1));
+  }
 }

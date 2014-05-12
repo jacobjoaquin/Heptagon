@@ -51,10 +51,10 @@ class PhoneSynth {
 		event(tones.get(0), tones.get(1));
 	}
 
-	void play (String s) {
+	void play (char c) {
 		ArrayList<Integer> tones = new ArrayList<Integer>();
 
-		switch((int) s.charAt(0)) {
+		switch((int) Character.toUpperCase(c)) {
 			// A
 			case 65:
 				tones = getTones(3, 0);
@@ -86,9 +86,32 @@ class PhoneSynth {
 		event(tones.get(0), tones.get(1));
 	}
 
+	void play (String s) {
+		ArrayList<Integer> tones = new ArrayList<Integer>();
+
+		if (s == "BUSY") {
+			tones.add(480);
+			tones.add(620);
+		}
+		else if (s == "RINGBACK") {
+			tones.add(440);
+			tones.add(480);
+		}
+		else if (s == "DIALTONE") {
+			tones.add(440);
+			tones.add(480);
+		}
+		else {
+			return;
+		}
+
+		event(tones.get(0), tones.get(1));
+	}
+
+
 	private void event(int p4, int p5) {
 		turnoffInstr(instr);
-		cs.event("i " + instr + " " + kDelay + " 1 " + p4 + " " + p5 + "\n");
+		cs.event("i " + instr + " " + kDelay + " 0.125 " + p4 + " " + p5 + "\n");
 	}
 
 	private ArrayList<Integer> getTones(int x, int y) {

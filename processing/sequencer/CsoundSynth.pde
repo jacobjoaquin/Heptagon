@@ -14,7 +14,10 @@ class CsoundSynth {
 		loadOrc();
 		cs.Start();
 		csPerf.Play();
-		cs.ReadScore("i 1000 0 1000");
+		event("i 1 0 1\n");
+		event("i 2 0 -1\n");
+		event("i 500 0 -1\n");
+		update();
 		// println(cs.KR);
 	}
 
@@ -32,9 +35,7 @@ class CsoundSynth {
 	}
 
 	void event(String s) {
-		// cs.ReadScore(s);
 		eventBuffer.append(s);
-		// eventBuffer.append("\n");
 	}
 
 	void update() {
@@ -42,7 +43,6 @@ class CsoundSynth {
 			cs.ReadScore(eventBuffer.toString());
 			println(eventBuffer.toString());
 			eventBuffer.delete(0, eventBuffer.length());
-
 		}
 	}
 }

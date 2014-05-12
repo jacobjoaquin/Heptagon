@@ -1,18 +1,36 @@
 sr = 44100
 kr = 441
 ksmps = 100
-nchnls = 1
+nchnls = 2
 0dbfs = 1.0
 
+giMasterVolume = 0.25;
+
+; Tables
 gitemp ftgen 1, 0, 8192, 10, 1
+
+; Setup
+instr 1
+	chn_k "reverbSize", 1
+	chn_a "reverbLeft", 1
+	chn_a "reverbRight", 1
+
+	turnoff
+endin
+
+; Clean Chn
+instr 2
+	azero = 0
+
+	chnset azero, "reverbLeft"
+	chnset azero, "reverbRight"
+endin
 
 ; Turn off an instrument
 instr 10
 	turnoff2 p4, 0, 0
 	turnoff
 endin
-
-
 
 ; Test
 instr 101
@@ -37,7 +55,6 @@ instr 102
 	a1 oscil iamp, ifreq1 + (ifreq2 - ifreq1) * krand, 1
 	out a1
 endin
-
 
 ; Modem
 instr 103
@@ -73,18 +90,27 @@ instr 104
     out a1
 endin
 
-
 ; DTMF
 instr 105
+	idur = p3
     ifreq1 = p4
     ifreq2 = p5
 
     a1 oscil 0.4, ifreq1, 1, -1
     a2 oscil 0.4, ifreq2, 1, -1
-
-    out a1 + a2
+    ae linseg 0, 0.01, 1, idur - 0.02, 1, 0.01, 0
+    amix = (a1 + a2) * ae
+    chnmix amix, "reverbLeft"
+    chnmix amix, "reverbRight"
 endin
 
-; Do nothing
-instr 1000
+; Reverb
+instr 500
+	ksize chnget "reverbSize"
+	ksize port ksize, 0.01
+	aleft chnget "reverbLeft"
+	aright chnget "reverbRight"
+
+	a1, a2 freeverb aleft, aright, ksize, ksize
+	outs a1 * giMasterVolume, a2 * giMasterVolume
 endin
