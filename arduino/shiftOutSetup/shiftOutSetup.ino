@@ -2,10 +2,24 @@
   Test output to TLC5916 chips
 */
 
+/*
+  white yellow green blue
+
+  white   12
+  blue    11
+  yellow  10
+  green   9
+
+  data, clock, latch, output_enable
+*/
 const int PULSE = 5;
-const int LATCH = 9;
-const int CLOCK = 10;
-const int OUTPUT_ENABLE = 11;
+// const int LATCH = 9;
+// const int CLOCK = 10;
+// const int OUTPUT_ENABLE = 11;
+// const int DATA = 12;
+const int CLOCK = 11;
+const int OUTPUT_ENABLE = 9;
+const int LATCH = 10;
 const int DATA = 12;
 const long RATE = 9600;
 const int NBYTES = 2;
@@ -50,10 +64,11 @@ void loop() {
 // digitalWrite(DATA, LOW);
 // digitalWrite(OUTPUT_ENABLE, LOW);
 
-  // digitalWrite(LATCH, HIGH);
+// digitalWrite(LATCH, HIGH);
 // digitalWrite(CLOCK, HIGH);
 // digitalWrite(OUTPUT_ENABLE, HIGH);
 // digitalWrite(DATA, HIGH);
+
 
 
   // while(true) {}
@@ -74,7 +89,7 @@ void loop() {
     // }
     onOff();
 
-    delay(100);
+    delay(1000);
     flip = 1 - flip;
     digitalWrite(13, flip);
     updateBytes();
