@@ -8,9 +8,12 @@ PGraphics img;
 Phasor phasor = new Phasor(1 / 255.0);
 PHSB phsb = new PHSB();
 
-CsoundSynth cs;
-PhoneSynth phoneSynth;
 SineWave sw;
+
+
+CsoundSynth cs;
+BitShiftSynth bitshiftSynth;
+PhoneSynth phoneSynth;
 Sampler sampler;
 
 void turnoffInstr(int i) {
@@ -21,6 +24,7 @@ void setupSynth() {
   cs = new CsoundSynth();
   phoneSynth = new PhoneSynth(cs);
   sampler = new Sampler(cs);
+  bitshiftSynth = new BitShiftSynth(cs);
 }
 
 void setup() {
@@ -39,6 +43,14 @@ void draw() {
   background(0);
   sw.update();
   sw.display();
+
+  if (frameCount % 99 == 0) {
+    bitshiftSynth.play(0.25, (int) random(1, 32));
+  }
+  if (frameCount % 100 == 0) {
+    cs.cs.SetChannel("bitShiftFreq", random(11025, 44100));
+  }
+
 
   if (frameCount % 121 == 0) {
     cs.cs.SetChannel("modemFreq", random(100, 5000));

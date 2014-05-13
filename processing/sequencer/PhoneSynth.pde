@@ -3,11 +3,9 @@ class PhoneSynth {
 	int tone_col[] = {1209, 1336, 1477, 1633};
 	int tone_row[] = {697, 770, 852, 941};
 	int instr = 105;
-	// float kDelay = 0.0022675736961451248;  //100 / 44100;
 
 	PhoneSynth(CsoundSynth cs_) {
 		cs = cs_;
-		// super(cs);
 	}
 
 	void play(int n) {
@@ -107,7 +105,6 @@ class PhoneSynth {
 
 		event(tones.get(0), tones.get(1));
 	}
-
 
 	private void event(int p4, int p5) {
 		turnoffInstr(instr);

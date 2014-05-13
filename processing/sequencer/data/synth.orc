@@ -10,10 +10,18 @@ gaFeedBackRight = 0
 
 ; Tables
 gitemp ftgen 1, 0, 8192, 10, 1
+gitemp ftgen 10, 0, 16, -2, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1
 
 ; Setup
 instr 1
-	chn_k "modemAmp", 0.125
+	; BitShift
+	chn_k "bitShiftAmp", 1
+	chn_k "bitShiftFreq", 1
+	chnset 1, "bitShiftAmp"
+	chnset 44100, "bitShiftFreq"
+
+	; Modem
+	chn_k "modemAmp", 1
 	chn_k "modemBPS", 1
 	chn_k "modemFreq", 1
 	chn_k "modemMod", 1
@@ -108,21 +116,20 @@ endin
 
 ; Bit Shift Register Synth
 instr 104
-    idiv = int(p4)  ; Integer division of clock. Range 1 - 32.
-    itab = p5       ; Selects the waveform
+	kamp chnget "bitShiftAmp"
+	kfreq chnget "bitShiftFreq"
 
-    ; Limit clock division to a range between 1 and 32
+	kamp = kamp * 0.4
+    idiv = int(p5)     ; Integer division of clock. Range 1 - 32.
+    itab = 10
+
     idiv limit idiv, 1, 32
-
-    ; Convert clock division to frequency
-    ifreq = sr / 16 / idiv
-    print ifreq
-
-    ; Oscillator
-    a1 oscil 0.1, ifreq, itab
-
-    ; Output audio
-    out a1
+    kfreq = kfreq / 16 / idiv
+    a1 oscil kamp, kfreq, itab
+    chnmix a1, "reverbLeft"
+    chnmix a1, "reverbRight"
+    chnmix a1, "masterLeft"
+    chnmix a1, "masterRight"
 endin
 
 ; DTMF
@@ -193,7 +200,6 @@ instr 500
     chnmix a1, "masterLeft"
     chnmix a2, "masterRight"
 endin
-
 
 ; Master out
 instr 600
