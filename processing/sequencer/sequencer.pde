@@ -50,8 +50,6 @@ void draw() {
   if (frameCount % 100 == 0) {
     cs.cs.SetChannel("bitShiftFreq", random(11025, 44100));
   }
-
-
   if (frameCount % 121 == 0) {
     cs.cs.SetChannel("modemFreq", random(100, 5000));
   }

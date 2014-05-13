@@ -11,6 +11,7 @@ gaFeedBackRight = 0
 ; Tables
 gitemp ftgen 1, 0, 8192, 10, 1
 gitemp ftgen 10, 0, 16, -2, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1
+gitemp ftgen 20, 0, 2 ^ 20, 1, "/Users/jacobjoaquin/Projects/Heptagon/processing/sequencer/data/audio/hissing.wav", 0, 4, 1
 
 ; Setup
 instr 1
@@ -169,6 +170,27 @@ instr 106
     chnmix a2 * iamp, "reverbRight"
     chnmix a1 * iamp, "masterLeft"
     chnmix a2 * iamp, "masterRight"
+endin
+
+; Rumble
+instr 107
+	iamp = p4
+	a1 gauss iamp
+	a1 lowpass2 a1, 200, 60
+	a2 gauss iamp
+	a2 lowpass2 a2, 200, 60
+	outs a1, a2
+endin
+
+; Hissing Rumble
+instr 108
+	ipch = p4
+
+	a1 loscil 0.5, ipch, 20, 1, 1
+	a2 loscil 0.5, ipch * 0.005, 20, 1, 1
+	a1 lowpass2 a1, 300, 30
+	a2 lowpass2 a2, 300, 30
+	outs a1, a2
 endin
 
 ; Reverb
