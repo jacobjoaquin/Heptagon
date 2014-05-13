@@ -40,7 +40,7 @@ void draw() {
   sw.update();
   sw.display();
 
-  if (frameCount % 120 == 0) {
+  if (frameCount % 333 == 0) {
     phoneSynth.play((int) random(10));
     counter = (counter + 1) % 10;
   }
@@ -51,8 +51,9 @@ void draw() {
     cs.cs.SetChannel("masterTune", random(0.5, 2.0));
   }
 
-  if (frameCount % 75 == 0) {
-    // sampler.play((int) random(10));
+  if (frameCount % 50 == 0) {
+    cs.cs.SetChannel("samplerRingModFreq", random(4, 30));
+    sampler.play((int) random(10));
     // sampler.play("a");
   }
 
@@ -60,8 +61,8 @@ void draw() {
     cs.cs.SetChannel("reverbSize", random(0, 1));
   }
   if (frameCount % 88 == 0) {
-    cs.cs.SetChannel("delayLeftAmount", random(0, 2000));
-    cs.cs.SetChannel("delayRightAmount", random(0, 2000));
+    cs.cs.SetChannel("delayLeftAmount", random(0, 500));
+    cs.cs.SetChannel("delayRightAmount", random(0, 500));
   }
 
   if (frameCount % 111 == 0) {

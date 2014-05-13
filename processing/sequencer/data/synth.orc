@@ -19,6 +19,10 @@ instr 1
 	chn_a "masterLeft", 1
 	chn_a "masterRight", 1
 
+	; Sampler
+	chn_k "samplerRingModFreq", 1
+	chnset 4, "samplerRingModFreq"
+
 	; Delay
 	chn_k "delayLeftAmount", 1
 	chn_k "delayRightAmount", 1
@@ -128,13 +132,24 @@ endin
 
 ; Sampler
 instr 106
+;	ktune chnget "masterTune"
+;	ktune port ktune, 0.025
+	kring chnget "samplerRingModFreq"
+	kring port kring, 0.025
 	idur = p3
-	iamp = p4
+	iamp = p4 * 8
 	SFile = p5
 	ipch = p6
 
 	a1, a2 diskin2 SFile, ipch
-	outs a1, a1
+
+	a3 oscil 1, kring, 1
+	a1 = a1 * a3
+	a2 = a2 * a3
+    chnmix a1 * iamp, "reverbLeft"
+    chnmix a2 * iamp, "reverbRight"
+    chnmix a1 * iamp, "masterLeft"
+    chnmix a2 * iamp, "masterRight"
 endin
 
 ; Reverb

@@ -10,11 +10,11 @@ class Sampler {
 			return;
 		}
 
-		event(0.5, "/Users/jacobjoaquin/Projects/Heptagon/processing/sequencer/data/audio/voice_" + i + ".wav", 1.0);
+		event(1, "/Users/jacobjoaquin/Projects/Heptagon/processing/sequencer/data/audio/voice_" + i + ".wav", 1.0);
 	}
 
 	void play (String s) {
-		event(0.5, "/Users/jacobjoaquin/Projects/Heptagon/processing/sequencer/data/audio/voice_" + s.charAt(0) + ".wav", 1.0);
+		event(1, "/Users/jacobjoaquin/Projects/Heptagon/processing/sequencer/data/audio/voice_" + s.charAt(0) + ".wav", 1.0);
 	}
 
 
