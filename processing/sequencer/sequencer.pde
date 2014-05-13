@@ -11,6 +11,7 @@ PHSB phsb = new PHSB();
 CsoundSynth cs;
 PhoneSynth phoneSynth;
 SineWave sw;
+Sampler sampler;
 
 void turnoffInstr(int i) {
   cs.event("i 10 0 1 " + i + "\n");
@@ -19,6 +20,7 @@ void turnoffInstr(int i) {
 void setupSynth() {
   cs = new CsoundSynth();
   phoneSynth = new PhoneSynth(cs);
+  sampler = new Sampler(cs);
 }
 
 void setup() {
@@ -47,6 +49,11 @@ void draw() {
 
   if (frameCount % 14 == 0) {
     cs.cs.SetChannel("masterTune", random(0.5, 2.0));
+  }
+
+  if (frameCount % 75 == 0) {
+    // sampler.play((int) random(10));
+    // sampler.play("a");
   }
 
   if (frameCount % 17 == 0) {

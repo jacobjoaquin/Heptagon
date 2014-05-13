@@ -5,6 +5,7 @@ class CsoundSynth {
 	Csound cs;
 	CsoundPerformanceThread csPerf;
 	StringBuilder eventBuffer;
+	float frameDur;
 
 	CsoundSynth() {
 		eventBuffer = new StringBuilder(4096);
@@ -19,6 +20,7 @@ class CsoundSynth {
 		event("i 500 0 -1\n");  // Reverb FX
 		event("i 600 0 -1\n");  // Master Output
 		update();
+		frameDur = (float) cs.GetKsmps() / 44100.0;
 		// println(cs.KR);
 	}
 
