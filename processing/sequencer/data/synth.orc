@@ -13,6 +13,15 @@ gitemp ftgen 1, 0, 8192, 10, 1
 
 ; Setup
 instr 1
+	chn_k "modemAmp", 0.125
+	chn_k "modemBPS", 1
+	chn_k "modemFreq", 1
+	chn_k "modemMod", 1
+	chnset 1, "modemAmp"
+	chnset 8, "modemBPS"
+	chnset 100, "modemFreq"
+	chnset 50, "modemMod"
+
 	; Master
 	chn_k "masterTune", 1
 	chnset 1, "masterTune"
@@ -81,17 +90,20 @@ endin
 
 ; Modem
 instr 103
-    iamp = p4   ; Amplitude
-    ibps = p5   ; Bits per second
-    ifreq = p6  ; Frequency of carrier
-    imod = p7   ; Modulation amount
+	kamp chnget "modemAmp"
+	kamp port kamp, 0.025
+	kbps chnget "modemBPS"
+	kbps port kbps, 0.025
+	kfreq chnget "modemFreq"
+	kfreq port kfreq, 0.025
+	kmod chnget "modemMod"
+	kmod port kmod, 0.025
 
-    itable = 1
-    amod randh 1.0, ibps
+    amod randh 1.0, kbps
     amod limit ceil(amod), 0.0, 1.0
-    amod = amod * imod
-    a1 oscil iamp, ifreq + amod, itable
-    out a1
+    amod = amod * kmod
+    a1 oscil kamp, kfreq + amod, 1
+    outs a1, a1
 endin
 
 ; Bit Shift Register Synth

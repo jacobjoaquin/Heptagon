@@ -8,7 +8,7 @@ const int CLOCK = 10;
 const int OUTPUT_ENABLE = 11;
 const int DATA = 12;
 const long RATE = 9600;
-const int NBYTES = 2;
+const int NBYTES = 1;
 byte bytes[NBYTES];
 
 int t = 0;
@@ -18,17 +18,11 @@ bool booting = true;
 int allFlip = 0;
 
 void updateBytes() {
-  delay(50);
   digitalWrite(LATCH, LOW);
-  delay(50);
   for(int i = NBYTES - 1; i >= 0; i--) {
     shiftOut(DATA, CLOCK, MSBFIRST, bytes[i]);
   }
   digitalWrite(LATCH, HIGH);
-
-  for (int i = 0; i < NBYTES; i++) {
-    bytes[i]++;
-  }
 }
 
 void setup() {
@@ -38,6 +32,8 @@ void setup() {
   pinMode(DATA, OUTPUT);
   pinMode(OUTPUT_ENABLE, OUTPUT);
   pinMode(13, OUTPUT);
+  digitalWrite(OUTPUT_ENABLE, LOW);
+  digitalWrite(OUTPUT_ENABLE, HIGH);
   digitalWrite(OUTPUT_ENABLE, LOW);
   digitalWrite(CLOCK, LOW);
   digitalWrite(LATCH, HIGH);
@@ -65,7 +61,7 @@ void loop() {
   if (booting) {
     booting = false;
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 20; i++) {
       digitalWrite(13, HIGH);
       delay(50);
       digitalWrite(13, LOW);
@@ -76,23 +72,18 @@ void loop() {
     // for (int i = 0; i < NBYTES; i++) {
     //   bytes[i]++;
     // }
-    // onOff();
+    onOff();
 
     delay(100);
     flip = 1 - flip;
     digitalWrite(13, flip);
+    updateBytes();
   }
 }
 
 
 void onOff() {
-  allFlip = 1 - allFlip;
   for (int i = 0; i < NBYTES; i++) {
-    if (allFlip) {
-      bytes[i] = 0xFF;
-    }
-    else {
-      bytes[i] = 0;
-    }
+    bytes[i] = 255 - bytes[i];
   }
 }

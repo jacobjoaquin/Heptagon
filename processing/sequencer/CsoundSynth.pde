@@ -17,6 +17,7 @@ class CsoundSynth {
 		csPerf.Play();
 		event("i 1 0 1\n");     // Setup
 		event("i 2 0 -1\n");    // Clear Chn
+		event("i 103 0 -1\n");  // Modem Noise
 		event("i 500 0 -1\n");  // Reverb FX
 		event("i 600 0 -1\n");  // Master Output
 		update();
