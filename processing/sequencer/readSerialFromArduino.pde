@@ -23,6 +23,7 @@ void setupSerial() {
 
   createBytes();
   createBits();
+  createAnalog();
 }
 
 void createBytes() {
@@ -35,5 +36,11 @@ void createBits() {
   for (int i = 0; i < 8 * nBytes; i++) {
     digitalBits.add(new Integer(0));
     digitalBitsFrames.add(new Long(0));
+  }
+}
+
+void createAnalog() {
+  for (int i = 0; i < 21; i++) {
+    analogValues.add(0);
   }
 }

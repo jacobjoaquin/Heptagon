@@ -114,3 +114,14 @@ synchronized void doBit(int byteIndex, int bitIndex, int value) {
     default:
   }
 }
+
+void doAnalog(int index, int value) {
+  switch (index) {
+    case 0:
+      println(value);
+      cs.cs.SetChannel("masterTune", map(value, 0, 1024, -2, 2));
+
+      break;
+    default:
+  }
+}

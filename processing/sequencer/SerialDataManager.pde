@@ -33,7 +33,10 @@ public class SerialDataManager {
 			}
 			// Analog input bytes
 			else if (index >= 14 && index < 35) {
-				// updateAnalog(index);
+				if (frameCount % 5 == 0) {
+					Integer v = ((v0 << 8) & 0xFF00) + (v1 & 0xFF);
+					updateAnalog(index - 14, v.intValue());
+				}
 			}
 		}
 	}

@@ -135,3 +135,15 @@ synchronized void updateByteInput(int index, byte value) {
     storedByte = new Byte(value);
   }
 }
+
+synchronized void updateAnalog(int index, int value) {
+  Integer storedValue = analogValues.get(index);
+  int storedValueInt = storedValue.intValue();
+
+  if (storedValue == value) {
+    return;
+  }
+
+  doAnalog(index, value);
+  analogValues.set(index, value);
+}
