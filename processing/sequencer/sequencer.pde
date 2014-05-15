@@ -20,7 +20,7 @@ void turnoffInstr(int i) {
 }
 
 void setupSynth() {
-  cs = new CsoundSynth();
+  cs = new CsoundSynth(false);
   phoneSynth = new PhoneSynth(cs);
   sampler = new Sampler(cs);
   bitshiftSynth = new BitShiftSynth(cs);
@@ -44,9 +44,8 @@ int counter = 0;
 void draw() {
   // background(0);
   phsb.fillScreen();
-  // sw.update();
-  // sw.display();
-
+  sw.update();
+  sw.display();
   // testSound();
   phsb.update();
 }
