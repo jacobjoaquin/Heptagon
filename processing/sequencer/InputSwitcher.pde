@@ -161,7 +161,17 @@ void doAnalog(int index, int value) {
       break;
 
 
-
+      // Middle row sloders
+      // 16 17 18 (bottom to top)
+    case 16:
+      cs.cs.SetChannel("bitShiftFreq", map(value, 0, 1024, 11025, 44100));
+      break;
+    case 17:
+      cs.cs.SetChannel("samplerRingModFreq", map(value, 0, 1024, 4, 1000));
+      break;
+    case 18:
+      // cs.cs.SetChannel("delayRightAmount", map(value, 0, 1024, 0, 500));
+      break;
 
 
 

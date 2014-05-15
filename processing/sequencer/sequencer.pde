@@ -67,6 +67,12 @@ void draw() {
   serialDataManager.readBuffer();
   while(serialDataManager.isLocked) {
   }
+
+
+  if (frameCount % 120 == 0) {
+    sampler.nextNumber();
+  }
+
 }
 
 
@@ -105,7 +111,7 @@ void testSound() {
   if (frameCount % 301 == 0) {
     cs.cs.SetChannel("samplerRingModFreq", random(4, 30));
     // sampler.play((int) random(10));
-    sampler.play("a");
+    // sampler.play("a");
   }
 
 
