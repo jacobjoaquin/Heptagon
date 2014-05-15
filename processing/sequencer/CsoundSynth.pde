@@ -18,6 +18,7 @@ class CsoundSynth {
 		csPerf.Play();
 		frameDur = (float) cs.GetKsmps() / 44100.0;
 		startRunningInstruments();
+		isEnabled = true;
 	}
 
 	CsoundSynth(boolean isEnabled_) {
@@ -41,9 +42,9 @@ class CsoundSynth {
 	private void startRunningInstruments() {
 		event("i 1 0 1\n");     // Setup
 		event("i 2 0 -1\n");    // Clear Chn
-		event("i 103 0 -1\n");  // Modem Noise
+		// event("i 103 0 -1\n");  // Modem Noise
 		event("i 108 0 -1 0.2\n");  // Rumble
-		event("i 500 0 -1\n");  // Reverb FX
+		// event("i 500 0 -1\n");  // Reverb FX
 		event("i 600 0 -1\n");  // Master Output
 		update();
 	}
