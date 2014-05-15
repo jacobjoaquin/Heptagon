@@ -70,17 +70,9 @@ class CsoundSynth {
 
 	synchronized void update() {
 		if (eventBuffer.length() > 0 && isEnabled) {
-			println("cs updateing update()");
-			try {
-				cs.ReadScore(eventBuffer.toString());
-				println(eventBuffer.toString());
-				eventBuffer.delete(0, eventBuffer.length());
-			}
-			finally {
-				println("update() finally");
-			}
-			// catch (excep)
-			// catch { }
+			cs.ReadScore(eventBuffer.toString());
+			println(eventBuffer.toString());
+			eventBuffer.delete(0, eventBuffer.length());
 		}
 	}
 }

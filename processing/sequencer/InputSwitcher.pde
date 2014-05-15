@@ -117,11 +117,31 @@ synchronized void doBit(int byteIndex, int bitIndex, int value) {
 
 void doAnalog(int index, int value) {
   switch (index) {
+    // 6 Knobs --------------------------------
+    // (0, 0) = 0
     case 0:
-      println(value);
       cs.cs.SetChannel("masterTune", map(value, 0, 1024, -2, 2));
-
       break;
     default:
+    // (0, 1) = 3
+    case 3:
+      cs.cs.SetChannel("bitShiftFreq", map(value, 0, 1024, 11025, 44100));
+      break;
+    // (0, 2) = 2
+    case 2:
+      cs.cs.SetChannel("modemFreq", map(value, 0, 1024, 100, 5000));
+      break;
+    // (1, 0) = 1
+    case 1:
+      cs.cs.SetChannel("modemBPS", map(value, 0, 1024, 8, 300));
+      break;
+    // (1, 1) = 4
+    case 4:
+      cs.cs.SetChannel("modemMod", map(value, 0, 1024, 100, 1000));
+      break;
+    // (1, 2) = 11
+    case 11:
+      cs.cs.SetChannel("modemAmp", map(value, 0, 1024, 0.025, 0.1));
+      break;
   }
 }
