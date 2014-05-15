@@ -89,5 +89,8 @@ void draw() {
   background(#BFFF95);
   updateVirtualBoard();
   serialDataManager.readBuffer();
+  if (frameCount % 60 == 0) {
+    println(frameCount);
+  }
   // debugInfo();
 }

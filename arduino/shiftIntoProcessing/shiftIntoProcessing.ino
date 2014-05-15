@@ -5,7 +5,7 @@ const int PULSE = 0;
 const int DATA = 4;
 const int CLOCK = 3;
 const int LATCH = 2;
-const long RATE = 38400;
+const long RATE = 9600;
 const int NBYTES = 14;
 const int NUINTS = 21;
 

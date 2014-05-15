@@ -31,6 +31,7 @@ void setup() {
   frameRate(60);
   // opc = new MyOPC(this, "127.0.0.1", 7890);
   // opc.myGrid();
+  setupSerial();
   setupSynth();
   stackpg = new StackPGraphics(this);
   // phsb.setPalette(new Palette_foo());
@@ -46,7 +47,7 @@ void draw() {
   // sw.update();
   // sw.display();
 
-  testSound();
+  // testSound();
   phsb.update();
 }
 

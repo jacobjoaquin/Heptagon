@@ -36,9 +36,9 @@ public class SerialDataManager {
 				Pot p = pots.get(index - 14);
 				Integer v = ((v0 << 8) & 0xFF00) + (v1 & 0xFF);
 				p.value = v;
-				if (frameCount % 5 == 0 && index == 32) {
-					println(index + ",  " + v0 + ", " + v1 + ", " + v);
-				}
+				// if (frameCount % 5 == 0 && index == 32) {
+				// 	println(index + ",  " + v0 + ", " + v1 + ", " + v);
+				// }
 			}
 		}
 	}
