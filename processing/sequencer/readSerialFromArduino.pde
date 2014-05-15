@@ -34,5 +34,6 @@ void createBytes() {
 void createBits() {
   for (int i = 0; i < 8 * nBytes; i++) {
     digitalBits.add(new Integer(0));
+    digitalBitsFrames.add(new Long(0));
   }
 }

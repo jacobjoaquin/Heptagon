@@ -26,8 +26,9 @@ int counter = 0;
 int nBytes = 14;
 ArrayList<Byte> digitalValues = new ArrayList<Byte>();
 ArrayList<Integer> digitalBits = new ArrayList<Integer>();
+ArrayList<Long> digitalBitsFrames = new ArrayList<Long>();
 ArrayList<Integer> analogValues = new ArrayList<Integer>();
-
+final static int minDelayBetweenFrames = 5;
 
 
 void turnoffInstr(int i) {
@@ -118,7 +119,7 @@ void testSound() {
   cs.update();
 }
 
-void updateByteInput(int index, byte value) {
+synchronized void updateByteInput(int index, byte value) {
   Byte storedByte = digitalValues.get(index);
   byte storedByteValue = storedByte.byteValue();
 
@@ -130,60 +131,5 @@ void updateByteInput(int index, byte value) {
     }
 
     storedByte = new Byte(value);
-  }
-}
-
-void doBit(int byteIndex, int bitIndex, int value) {
-  int index = byteIndex * 8 + bitIndex;
-  Integer storedBit = digitalBits.get(index);
-  println("doBit() " + index + " " + value + " " + storedBit.intValue());
-
-  if (value == storedBit.intValue()) {
-    println("    returning");
-    return;
-  }
-
-  storedBit = new Integer(value);
-
-
-  switch(index) {
-    case 40:
-      if (value == 1) {
-        sampler.play(0);
-      }
-      break;
-
-    case 43:
-      if (value == 1) {
-        sampler.play(1);
-      }
-      break;
-    // 45, 47, 44, 46
-    // Dialtones
-
-    case 44:
-      if (value == 1) {
-        phoneSynth.play(2);
-      }
-      break;
-    case 45:
-      if (value == 1) {
-        phoneSynth.play(0);
-      }
-      break;
-    case 46:
-      if (value == 1) {
-        phoneSynth.play("a".charAt(0));
-      }
-      break;
-    case 47:
-      if (value == 1) {
-        phoneSynth.play(1);
-      }
-      break;
-
-
-    default:
-      println("case DEFAULT");
   }
 }
