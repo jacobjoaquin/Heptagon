@@ -143,5 +143,30 @@ void doAnalog(int index, int value) {
     case 11:
       cs.cs.SetChannel("modemAmp", map(value, 0, 1024, 0.025, 0.1));
       break;
+
+
+    // Top Row
+    // 10 15 14 13 (left to right)
+    case 10:
+      cs.cs.SetChannel("reverbSize", map(value, 0, 1024, 0, 1));
+      break;
+    case 15:
+      cs.cs.SetChannel("delayLeftAmount", map(value, 0, 1024, 0, 500));
+      break;
+    case 14:
+      cs.cs.SetChannel("delayRightAmount", map(value, 0, 1024, 0, 500));
+      break;
+    case 13:
+      cs.cs.SetChannel("delayFeedBack", map(value, 0, 1024, 0, 0.45));
+      break;
+
+
+
+
+
+
+
+
+
   }
 }
