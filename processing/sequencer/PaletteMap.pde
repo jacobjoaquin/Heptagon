@@ -25,3 +25,21 @@ class Palette_foo extends Palette {
     add(color(0, 0, 255));
   }
 }
+
+class Palette_BWGW extends Palette {
+  Palette_BWGW() {
+    super();
+    add(color(0, 0, 255));
+    add(color(0));
+    add(color(0));
+    add(color(255));
+    add(color(0));
+    add(color(0));
+    add(color(0, 255, 0));
+    add(color(0));
+    add(color(0));
+    add(color(255));
+    add(color(0));
+    add(color(0));
+  }
+}

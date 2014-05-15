@@ -22,7 +22,7 @@ const int OUTPUT_ENABLE = 9;
 const int LATCH = 10;
 const int DATA = 12;
 const long RATE = 9600;
-const int NBYTES = 2;
+const int NBYTES = 1;
 byte bytes[NBYTES];
 
 int t = 0;

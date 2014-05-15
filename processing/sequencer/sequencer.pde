@@ -10,7 +10,6 @@ PHSB phsb = new PHSB();
 
 SineWave sw;
 
-
 CsoundSynth cs;
 BitShiftSynth bitshiftSynth;
 PhoneSynth phoneSynth;
@@ -35,15 +34,24 @@ void setup() {
   setupSynth();
   stackpg = new StackPGraphics(this);
   // phsb.setPalette(new Palette_foo());
+  phsb.setPalette(new Palette_BWGW());
+  // phsb.setPalette(new Palette_HSB());
   sw = new SineWave();
 }
 
 int counter = 0;
 void draw() {
-  background(0);
-  sw.update();
-  sw.display();
+  // background(0);
+  phsb.fillScreen();
+  // sw.update();
+  // sw.display();
 
+  testSound();
+  phsb.update();
+}
+
+
+void testSound() {
   if (frameCount % 99 == 0) {
     bitshiftSynth.play(0.25, (int) random(1, 32));
   }

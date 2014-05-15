@@ -37,7 +37,8 @@ void updateVirtualBoard() {
 }
 
 void setup() {
-  size(274, 550);
+  // size(274, 350);
+  size(350, 550);
   frameRate(60);
   println(Serial.list());
   port = new Serial(this, "/dev/cu.usbmodem38791", serialRate);
@@ -65,7 +66,7 @@ void setup() {
   }
 
   // Create Potentiometers
-  for (int i = 0; i < 18; i++) {
+  for (int i = 0; i < 21; i++) {
     analogValues.add(0);
   }
 
@@ -76,6 +77,10 @@ void setup() {
   }
   for (int i = 0; i < 9; i++) {
     pots.add(new Pot(210, (Pot.h + 4) * i + 16, potIndex));
+    potIndex++;
+  }
+  for (int i = 0; i < 3; i++) {
+    pots.add(new Pot(270, (Pot.h + 4) * i + 16, potIndex));
     potIndex++;
   }
 }
