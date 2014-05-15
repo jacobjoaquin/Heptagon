@@ -3,6 +3,7 @@ class PhoneSynth {
 	int tone_col[] = {1209, 1336, 1477, 1633};
 	int tone_row[] = {697, 770, 852, 941};
 	int instr = 105;
+	float dur = 0.125;
 
 	PhoneSynth(CsoundSynth cs_) {
 		cs = cs_;
@@ -106,9 +107,9 @@ class PhoneSynth {
 		event(tones.get(0), tones.get(1));
 	}
 
-	private void event(int p4, int p5) {
+	synchronized private void event(int p4, int p5) {
 		turnoffInstr(instr);
-		cs.event("i " + instr + " " + cs.frameDur + " 0.5 " + p4 + " " + p5 + "\n");
+		cs.event("i " + instr + " " + cs.frameDur + " " + dur + " " + p4 + " " + p5 + "\n");
 	}
 
 	private ArrayList<Integer> getTones(int x, int y) {
