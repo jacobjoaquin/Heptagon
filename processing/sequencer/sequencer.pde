@@ -61,16 +61,19 @@ void draw() {
   phsb.fillScreen();
   sw.update();
   sw.display();
-  testSound();
+  // testSound();
   phsb.update();
+  cs.update();
   serialDataManager.readBuffer();
+  while(serialDataManager.isLocked) {
+  }
 }
 
 
 void testSound() {
-  // if (frameCount % 99 == 0) {
-  //   bitshiftSynth.play(0.25, (int) random(1, 32));
-  // }
+  if (frameCount % 99 == 0) {
+    bitshiftSynth.play(0.25, (int) random(1, 32));
+  }
 
 
 
@@ -91,19 +94,19 @@ void testSound() {
   }
 
 
-  // if (frameCount % 50 == 0) {
-  //   // phoneSynth.play((int) random(10));
-  //   phoneSynth.play("a".charAt(0));
-  //   counter = (counter + 1) % 10;
-  // }
-  // if (frameCount % 14 == 0) {
-  //   cs.cs.SetChannel("masterTune", random(0.5, 2.0));
-  // }
-  // if (frameCount % 301 == 0) {
-  //   cs.cs.SetChannel("samplerRingModFreq", random(4, 30));
-  //   // sampler.play((int) random(10));
-  //   sampler.play("a");
-  // }
+  if (frameCount % 50 == 0) {
+    // phoneSynth.play((int) random(10));
+    phoneSynth.play("a".charAt(0));
+    counter = (counter + 1) % 10;
+  }
+  if (frameCount % 14 == 0) {
+    cs.cs.SetChannel("masterTune", random(0.5, 2.0));
+  }
+  if (frameCount % 301 == 0) {
+    cs.cs.SetChannel("samplerRingModFreq", random(4, 30));
+    // sampler.play((int) random(10));
+    sampler.play("a");
+  }
 
 
   if (frameCount % 17 == 0) {
@@ -116,7 +119,6 @@ void testSound() {
   if (frameCount % 111 == 0) {
     cs.cs.SetChannel("delayFeedBack", random(0, 0.45));
   }
-  cs.update();
 }
 
 synchronized void updateByteInput(int index, byte value) {

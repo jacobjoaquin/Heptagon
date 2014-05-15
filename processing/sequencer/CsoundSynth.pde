@@ -42,9 +42,9 @@ class CsoundSynth {
 	private void startRunningInstruments() {
 		event("i 1 0 1\n");     // Setup
 		event("i 2 0 -1\n");    // Clear Chn
-		// event("i 103 0 -1\n");  // Modem Noise
+		event("i 103 0 -1\n");  // Modem Noise
 		event("i 108 0 -1 0.2\n");  // Rumble
-		// event("i 500 0 -1\n");  // Reverb FX
+		event("i 500 0 -1\n");  // Reverb FX
 		event("i 600 0 -1\n");  // Master Output
 		update();
 	}
@@ -62,17 +62,25 @@ class CsoundSynth {
 		cs.CompileOrc(sb.toString());
 	}
 
-	void event(String s) {
+	synchronized void event(String s) {
 		if (isEnabled) {
 			eventBuffer.append(s);
 		}
 	}
 
-	void update() {
+	synchronized void update() {
 		if (eventBuffer.length() > 0 && isEnabled) {
-			cs.ReadScore(eventBuffer.toString());
-			println(eventBuffer.toString());
-			eventBuffer.delete(0, eventBuffer.length());
+			println("cs updateing update()");
+			try {
+				cs.ReadScore(eventBuffer.toString());
+				println(eventBuffer.toString());
+				eventBuffer.delete(0, eventBuffer.length());
+			}
+			finally {
+				println("update() finally");
+			}
+			// catch (excep)
+			// catch { }
 		}
 	}
 }

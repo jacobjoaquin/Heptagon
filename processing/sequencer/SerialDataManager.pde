@@ -4,10 +4,10 @@ import java.util.concurrent.*;
 public class SerialDataManager {
 	byte[] serialBytes = new byte[1024];
 	ArrayList<Byte> buffer = new ArrayList<Byte>();
+	boolean isLocked = false;
 
 	// Data that comes in from serial, which is placed into the buffer
 	public synchronized void readSerial() {
-		// println("readSerial()");
 		int nBytesAvailable = port.available();
 
 		if (nBytesAvailable > 0) {
@@ -29,7 +29,6 @@ public class SerialDataManager {
 
 			// Digital input bytes
 			if (index < 14 && index >= 0) {
-				// println("Byte index: " + index);
 				updateByteInput(index, v0);
 			}
 			// Analog input bytes
@@ -51,7 +50,9 @@ class SerialDataManagerThread implements Runnable {
 	public void run() {
 		while(true) {
 			synchronized(serialDataManager) {
+				serialDataManager.isLocked = true;
 				serialDataManager.readSerial();
+				serialDataManager.isLocked = false;
 			}
 		}
 	}

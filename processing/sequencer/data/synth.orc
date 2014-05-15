@@ -112,7 +112,8 @@ instr 103
     amod limit ceil(amod), 0.0, 1.0
     amod = amod * kmod
     a1 oscil kamp, kfreq + amod, 1
-    outs a1, a1
+    chnmix a1, "masterLeft"
+    chnmix a1, "masterRight"
 endin
 
 ; Bit Shift Register Synth
@@ -179,7 +180,8 @@ instr 107
 	a1 lowpass2 a1, 200, 60
 	a2 gauss iamp
 	a2 lowpass2 a2, 200, 60
-	outs a1, a2
+    chnmix a1, "masterLeft"
+    chnmix a2, "masterRight"
 endin
 
 ; Hissing Rumble
@@ -190,7 +192,8 @@ instr 108
 	a2 loscil 0.5, ipch * 0.005, 20, 1, 1
 	a1 lowpass2 a1, 300, 30
 	a2 lowpass2 a2, 300, 30
-	outs a1, a2
+    chnmix a1, "masterLeft"
+    chnmix a2, "masterRight"
 endin
 
 ; Reverb

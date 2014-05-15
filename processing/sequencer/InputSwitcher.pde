@@ -1,4 +1,7 @@
 synchronized void doBit(int byteIndex, int bitIndex, int value) {
+  if (false) {
+    return;
+  }
   int index = byteIndex * 8 + bitIndex;
   Integer storedBit = digitalBits.get(index);
 
@@ -108,18 +111,6 @@ synchronized void doBit(int byteIndex, int bitIndex, int value) {
         phoneSynth.play(5);
       }
       break;
-
-
-
-    // case :
-    //   if (value == 1) {
-    //     phoneSynth.play();
-    //   }
-    //   break;
-
-
-
     default:
-      println("case DEFAULT");
   }
 }
