@@ -5,7 +5,7 @@ final int INPUTS_PER_BOARD = 8 * CHIPS_PER_BOARD;
 final int N_BOARDS = 2;
 final int N_INPUTS = N_BOARDS * INPUTS_PER_BOARD;
 Serial port;
-int serialRate = 38400;
+int serialRate = 9600;
 ArrayList<Chip> chips = new ArrayList<Chip>();
 ArrayList<Byte> bytes = new ArrayList<Byte>();
 ArrayList<Pot> pots = new ArrayList<Pot>();

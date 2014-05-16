@@ -9,7 +9,7 @@ StackPGraphics stackpg;
 PGraphics img;
 
 // Generals
-Phasor phasor = new Phasor(1 / 255.0);
+Phasor phasor = new Phasor(1 / 128.0);
 PHSB phsb = new PHSB();
 
 // Visuals
@@ -43,32 +43,41 @@ void setupSynth() {
 }
 
 void setup() {
-  size(14, 70);
+  size(16, 70);
   frameRate(30);
-  // opc = new MyOPC(this, "127.0.0.1", 7890);
-  // opc.myGrid();
+  opc = new MyOPC(this, "127.0.0.1", 7890);
+  opc.showLocations(false);
+  opc.myGrid();
   setupSynth();
   setupSerial();
   stackpg = new StackPGraphics(this);
   // phsb.setPalette(new Palette_foo());
-  phsb.setPalette(new Palette_BWGW());
+  // phsb.setPalette(new Palette_BWGW());
+  // phsb.setPalette(new Palette_singleRed());
+  // phsb.setPalette(new Palette_singleGreen());
+  // phsb.setPalette(new Palette_singleBlue());
+  phsb.setPalette(new Palette_singleOrange());
   // phsb.setPalette(new Palette_HSB());
   sw = new SineWave();
 }
 
 void draw() {
   phsb.fillScreen();
-  sw.update();
-  sw.display();
-  // testSound();
   phsb.update();
+  // sw.update();
+  // sw.display();
+  // testSound();
   synchronized(cs) {
     cs.update();
   }
+
+
   synchronized(serialDataManager){
     serialDataManager.readBuffer();
   }
   while(serialDataManager.isLocked) {}
+
+
   if (frameCount % 120 == 0) {
     // cs.cs.SetChannel("samplerReverbLeft", random(1));
     // cs.cs.SetChannel("samplerReverbRight", random(1));

@@ -83,12 +83,9 @@ endin
 
 ; Test
 instr 101
-	idur = p3
-	iamp = p4
-	ifreq = p5
-	k1 line 1, idur, 0
-	a1 oscils iamp, ifreq, 1
-	out a1 * k1
+	a1 oscil 0.5, 37, 1
+    chnmix a1, "masterLeft"
+    chnmix a1, "masterRight"
 endin
 
 ; Classic Computer S&H
@@ -213,6 +210,10 @@ instr 500
 	; Input
 	aleft chnget "reverbLeft"
 	aright chnget "reverbRight"
+	aleftSampler chnget "samplerReverbLeft"
+	arightSampler chnget "samplerReverbLeft"
+	aleft = aleft + aleftSampler
+	aright = aright + arightSampler
 
 	; Pre-delay
 	kdlamt chnget "delayLeftAmount"

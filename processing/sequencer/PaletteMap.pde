@@ -43,3 +43,71 @@ class Palette_BWGW extends Palette {
     add(color(0));
   }
 }
+
+class Palette_singleRed extends Palette {
+  Palette_singleRed() {
+    super();
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(128, 0, 0));
+    add(color(255, 0, 0));
+    add(color(255, 128, 128));
+    add(color(255));
+    add(color(255, 128, 128));
+    add(color(255, 0, 0));
+    add(color(128, 0, 0));
+  }
+}
+
+class Palette_singleOrange extends Palette {
+  Palette_singleOrange() {
+    super();
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(128, 64, 0));
+    add(color(255, 128, 0));
+    add(color(255, 224, 128));
+    add(color(0));
+    add(color(255, 224, 128));
+    add(color(255, 128, 0));
+    add(color(128, 64, 0));
+    add(color(128, 0, 0));
+  }
+}
+
+class Palette_singleGreen extends Palette {
+  Palette_singleGreen() {
+    super();
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(0, 128, 0));
+    add(color(0, 255, 0));
+    add(color(128, 255, 128));
+    add(color(255));
+    add(color(128, 255, 128));
+    add(color(0, 255, 0));
+    add(color(0, 128, 0));
+  }
+}
+
+
+class Palette_singleBlue extends Palette {
+  Palette_singleBlue() {
+    super();
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(0, 0, 0));
+    add(color(0, 0, 128));
+    add(color(0, 0, 255));
+    add(color(128, 128, 255));
+    add(color(255));
+    add(color(128, 128, 255));
+    add(color(0, 0, 255));
+    add(color(0, 0, 128));
+  }
+}
+
+

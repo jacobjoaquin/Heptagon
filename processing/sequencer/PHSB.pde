@@ -1,6 +1,6 @@
 class PHSB {
   public Palette palette;
-  Phasor offset = new Phasor(-0.01);
+  Phasor offset = new Phasor(0.01);
 
   void setPalette(Palette palette_) {
     palette = palette_;
