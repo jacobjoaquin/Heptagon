@@ -36,7 +36,7 @@ void turnoffInstr(int i) {
 }
 
 void setupSynth() {
-  cs = new CsoundSynth();
+  cs = new CsoundSynth(true);
   phoneSynth = new PhoneSynth(cs);
   sampler = new Sampler(cs);
   bitshiftSynth = new BitShiftSynth(cs);
@@ -44,7 +44,7 @@ void setupSynth() {
 
 void setup() {
   size(14, 70);
-  frameRate(60);
+  frameRate(30);
   // opc = new MyOPC(this, "127.0.0.1", 7890);
   // opc.myGrid();
   setupSynth();
@@ -57,22 +57,23 @@ void setup() {
 }
 
 void draw() {
-  // background(0);
   phsb.fillScreen();
   sw.update();
   sw.display();
   // testSound();
   phsb.update();
-  cs.update();
-  serialDataManager.readBuffer();
-  while(serialDataManager.isLocked) {
+  synchronized(cs) {
+    cs.update();
   }
-
-
+  synchronized(serialDataManager){
+    serialDataManager.readBuffer();
+  }
+  while(serialDataManager.isLocked) {}
   if (frameCount % 120 == 0) {
+    // cs.cs.SetChannel("samplerReverbLeft", random(1));
+    // cs.cs.SetChannel("samplerReverbRight", random(1));
     sampler.nextNumber();
   }
-
 }
 
 
@@ -80,9 +81,6 @@ void testSound() {
   if (frameCount % 99 == 0) {
     bitshiftSynth.play(0.25, (int) random(1, 32));
   }
-
-
-
   if (frameCount % 100 == 0) {
     cs.cs.SetChannel("bitShiftFreq", random(11025, 44100));
   }
@@ -98,8 +96,6 @@ void testSound() {
   if (frameCount % 124 == 0) {
     cs.cs.SetChannel("modemAmp", random(0.025, 0.1));
   }
-
-
   if (frameCount % 50 == 0) {
     // phoneSynth.play((int) random(10));
     phoneSynth.play("a".charAt(0));
@@ -110,11 +106,7 @@ void testSound() {
   }
   if (frameCount % 301 == 0) {
     cs.cs.SetChannel("samplerRingModFreq", random(4, 30));
-    // sampler.play((int) random(10));
-    // sampler.play("a");
   }
-
-
   if (frameCount % 17 == 0) {
     cs.cs.SetChannel("reverbSize", random(0, 1));
   }
@@ -132,7 +124,6 @@ synchronized void updateByteInput(int index, byte value) {
   byte storedByteValue = storedByte.byteValue();
 
   if (storedByteValue != value) {
-    // println("byte: " + index);
     for (int i = 0; i < 8; i++) {
       int bitValue = ((value >> i) & 1);
       doBit(index, i, bitValue);

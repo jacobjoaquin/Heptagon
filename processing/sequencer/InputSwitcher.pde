@@ -1,7 +1,4 @@
 synchronized void doBit(int byteIndex, int bitIndex, int value) {
-  if (false) {
-    return;
-  }
   int index = byteIndex * 8 + bitIndex;
   Integer storedBit = digitalBits.get(index);
 
@@ -10,12 +7,9 @@ synchronized void doBit(int byteIndex, int bitIndex, int value) {
   }
 
   Long storedFrame = digitalBitsFrames.get(index);
-  // println("frames() " + frameCount + " " + storedFrame.intValue() + " " + byteIndex + " " + index + " " + value + " " + storedBit.intValue());
   if (frameCount <= storedFrame.longValue() + minDelayBetweenFrames) {
-    // println("frameCount returning");
     return;
   }
-  // storedFrame = new Integer(frameCount);
   digitalBitsFrames.set(index, (long) frameCount);
 
   println("doBit() " + byteIndex + " " + index + " " + value + " " + storedBit.intValue());
@@ -120,54 +114,55 @@ void doAnalog(int index, int value) {
     // 6 Knobs --------------------------------
     // (0, 0) = 0
     case 0:
-      cs.cs.SetChannel("masterTune", map(value, 0, 1024, -2, 2));
+      cs.SetChannel("masterTune", map(value, 0, 1024, -2, 2));
       break;
     default:
     // (0, 1) = 3
     case 3:
-      cs.cs.SetChannel("bitShiftFreq", map(value, 0, 1024, 11025, 44100));
+      cs.SetChannel("bitShiftFreq", map(value, 0, 1024, 11025, 44100));
       break;
     // (0, 2) = 2
     case 2:
-      cs.cs.SetChannel("modemFreq", map(value, 0, 1024, 100, 5000));
+      cs.SetChannel("modemFreq", map(value, 0, 1024, 100, 5000));
       break;
     // (1, 0) = 1
     case 1:
-      cs.cs.SetChannel("modemBPS", map(value, 0, 1024, 8, 300));
+      cs.SetChannel("modemBPS", map(value, 0, 1024, 8, 300));
       break;
     // (1, 1) = 4
     case 4:
-      cs.cs.SetChannel("modemMod", map(value, 0, 1024, 100, 1000));
+      cs.SetChannel("modemMod", map(value, 0, 1024, 100, 1000));
       break;
     // (1, 2) = 11
     case 11:
-      cs.cs.SetChannel("modemAmp", map(value, 0, 1024, 0.025, 0.1));
+      cs.SetChannel("modemAmp", map(value, 0, 1024, 0.025, 0.1));
       break;
 
 
     // Top Row
     // 10 15 14 13 (left to right)
     case 10:
-      cs.cs.SetChannel("reverbSize", map(value, 0, 1024, 0, 1));
+      cs.SetChannel("reverbSize", map(value, 0, 1024, 0, 1));
       break;
     case 15:
-      cs.cs.SetChannel("delayLeftAmount", map(value, 0, 1024, 0, 500));
+      cs.SetChannel("delayLeftAmount", map(value, 0, 1024, 0, 500));
       break;
     case 14:
-      cs.cs.SetChannel("delayRightAmount", map(value, 0, 1024, 0, 500));
+      cs.SetChannel("delayRightAmount", map(value, 0, 1024, 0, 500));
       break;
     case 13:
-      cs.cs.SetChannel("delayFeedBack", map(value, 0, 1024, 0, 0.45));
+      cs.SetChannel("delayFeedBack", map(value, 0, 1024, 0, 0.45));
       break;
 
 
       // Middle row sloders
       // 16 17 18 (bottom to top)
     case 16:
-      cs.cs.SetChannel("bitShiftFreq", map(value, 0, 1024, 11025, 44100));
+      cs.SetChannel("setSamplerReverbLeft", map(value, 0, 1024, 0, 1));
+      cs.SetChannel("setSamplerReverbRight", map(value, 0, 1024, 0, 1));
       break;
     case 17:
-      cs.cs.SetChannel("samplerRingModFreq", map(value, 0, 1024, 4, 1000));
+      cs.SetChannel("samplerRingModFreq", map(value, 0, 1024, 4, 1000));
       break;
     case 18:
       // cs.cs.SetChannel("delayRightAmount", map(value, 0, 1024, 0, 500));

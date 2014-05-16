@@ -22,11 +22,11 @@ class CsoundSynth {
 	}
 
 	CsoundSynth(boolean isEnabled_) {
-		eventBuffer = new StringBuilder(4096);
-		cs = new Csound();
-		csPerf = new CsoundPerformanceThread(cs);
+ 		eventBuffer = new StringBuilder(4096);
 		isEnabled = isEnabled_;
 		if (isEnabled) {
+			cs = new Csound();
+			csPerf = new CsoundPerformanceThread(cs);
 			cs.SetOption("-odac");
 			loadOrc();
 			cs.Start();
@@ -60,6 +60,11 @@ class CsoundSynth {
 		}
 
 		cs.CompileOrc(sb.toString());
+	}
+	synchronized void SetChannel(String s, float v) {
+		if (isEnabled) {
+			cs.SetChannel(s, v);
+		}
 	}
 
 	synchronized void event(String s) {

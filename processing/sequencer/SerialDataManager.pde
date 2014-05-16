@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class SerialDataManager {
-	byte[] serialBytes = new byte[1024];
+	byte[] serialBytes = new byte[8192];
 	ArrayList<Byte> buffer = new ArrayList<Byte>();
 	boolean isLocked = false;
 
@@ -34,8 +34,7 @@ public class SerialDataManager {
 			// Analog input bytes
 			else if (index >= 14 && index < 35) {
 				if (frameCount % 5 == 0) {
-					Integer v = ((v0 << 8) & 0xFF00) + (v1 & 0xFF);
-					updateAnalog(index - 14, v.intValue());
+					updateAnalog(index - 14, ((v0 << 8) & 0xFF00) + (v1 & 0xFF));
 				}
 			}
 		}

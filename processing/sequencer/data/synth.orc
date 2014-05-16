@@ -38,8 +38,14 @@ instr 1
 	chn_a "masterRight", 1
 
 	; Sampler
+	chn_a "samplerReverbLeft", 1
+	chn_a "samplerReverbRight", 1
+	chn_k "setSamplerReverbLeft", 1
+	chn_k "setSamplerReverbRight", 1
 	chn_k "samplerRingModFreq", 1
 	chnset 4, "samplerRingModFreq"
+	chnset 0, "setSamplerReverbLeft"
+	chnset 0, "setSamplerReverbRight"
 
 	; Delay
 	chn_k "delayLeftAmount", 1
@@ -61,6 +67,8 @@ endin
 instr 2
 	azero = 0
 
+	chnset azero, "samplerReverbLeft"
+	chnset azero, "samplerReverbRight"
 	chnset azero, "reverbLeft"
 	chnset azero, "reverbRight"
 	chnset azero, "masterLeft"
@@ -155,6 +163,10 @@ endin
 instr 106
 ;	ktune chnget "masterTune"
 ;	ktune port ktune, 0.025
+	krleft chnget "setSamplerReverbLeft"
+	krleft port krleft, 0.025
+	krright chnget "setSamplerReverbRight"
+	krright port krright, 0.025
 	kring chnget "samplerRingModFreq"
 	kring port kring, 0.025
 	idur = p3
@@ -167,10 +179,10 @@ instr 106
 	a3 oscil 1, kring, 1
 	a1 = a1 * a3
 	a2 = a2 * a3
-    chnmix a1 * iamp, "reverbLeft"
-    chnmix a2 * iamp, "reverbRight"
-    chnmix a1 * iamp, "masterLeft"
-    chnmix a2 * iamp, "masterRight"
+    chnmix a1 * iamp * krleft, "samplerReverbLeft"
+    chnmix a2 * iamp * krright, "samplerReverbRight"
+    chnmix a1 * iamp * (1 - krleft), "masterLeft"
+    chnmix a2 * iamp * (1 - krright), "masterRight"
 endin
 
 ; Rumble

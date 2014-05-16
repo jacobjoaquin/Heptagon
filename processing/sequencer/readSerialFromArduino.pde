@@ -24,6 +24,7 @@ void setupSerial() {
   createBytes();
   createBits();
   createAnalog();
+  port.clear();
 }
 
 void createBytes() {
