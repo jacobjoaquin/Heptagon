@@ -12,7 +12,7 @@ synchronized void doBit(int byteIndex, int bitIndex, int value) {
   }
   digitalBitsFrames.set(index, (long) frameCount);
 
-  println("doBit() " + byteIndex + " " + index + " " + value + " " + storedBit.intValue());
+  // println("doBit() " + byteIndex + " " + index + " " + value + " " + storedBit.intValue());
   storedBit = new Integer(value);
 
   // Dialtones
@@ -167,11 +167,5 @@ void doAnalog(int index, int value) {
     case 18:
       // cs.cs.SetChannel("delayRightAmount", map(value, 0, 1024, 0, 500));
       break;
-
-
-
-
-
-
   }
 }

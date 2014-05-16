@@ -1,11 +1,9 @@
-import moonpaper.*;
-import moonpaper.opcodes.*;
 import processing.serial.*;
 
 
 MyOPC opc;
-Moonpaper mp;
-StackPGraphics stackpg;
+// Moonpaper mp;
+// StackPGraphics stackpg;
 PGraphics img;
 
 // Generals
@@ -35,8 +33,22 @@ void turnoffInstr(int i) {
   cs.event("i 10 0 1 " + i + "\n");
 }
 
+CsoundSynthThread csoundSynthThread;
+Thread t2;
+
 void setupSynth() {
-  cs = new CsoundSynth(true);
+
+  // serialDataManager = new SerialDataManager();
+  // serialDataManagerThread = new SerialDataManagerThread(serialDataManager);
+  // t = new Thread(serialDataManagerThread);
+  // t.start();
+
+  csoundSynthThread = new CsoundSynthThread();
+  t2 = new Thread(csoundSynthThread);
+  t2.start();
+  cs = csoundSynthThread.getCsoundSynth();
+  // cs = new CsoundSynth(true);
+
   phoneSynth = new PhoneSynth(cs);
   sampler = new Sampler(cs);
   bitshiftSynth = new BitShiftSynth(cs);
@@ -50,7 +62,7 @@ void setup() {
   opc.myGrid();
   setupSynth();
   setupSerial();
-  stackpg = new StackPGraphics(this);
+  // stackpg = new StackPGraphics(this);
   // phsb.setPalette(new Palette_foo());
   // phsb.setPalette(new Palette_BWGW());
   // phsb.setPalette(new Palette_singleRed());
@@ -62,6 +74,7 @@ void setup() {
 }
 
 void draw() {
+  try {
   phsb.fillScreen();
   phsb.update();
   // sw.update();
@@ -70,15 +83,20 @@ void draw() {
   cs.update();
 
 
-  serialDataManager.readBuffer();
-  while(serialDataManager.isLocked) {}
-
-
-  if (frameCount % 120 == 0) {
-    // cs.cs.SetChannel("samplerReverbLeft", random(1));
-    // cs.cs.SetChannel("samplerReverbRight", random(1));
-    sampler.nextNumber();
+    serialDataManager.readBuffer();
+    while(serialDataManager.isLocked) {}
   }
+  catch (Exception e) {
+    println("Exception!");
+    println(e);
+  }
+
+
+  // if (frameCount % 120 == 0) {
+  //   // cs.cs.SetChannel("samplerReverbLeft", random(1));
+  //   // cs.cs.SetChannel("samplerReverbRight", random(1));
+  //   sampler.nextNumber();
+  // }
 }
 
 

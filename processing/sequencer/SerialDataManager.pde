@@ -22,9 +22,9 @@ public class SerialDataManager {
 
 	// Buffer data to be applied to sketch in Processing loop.
 	public synchronized void readBuffer() {
-		if (true) {
-			return;
-		}
+		// if (true) {
+		// 	return;
+		// }
 		boolean found = false;
 		byte b0 = 0;
 		byte b1 = 0;

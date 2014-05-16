@@ -1,6 +1,25 @@
 import csnd6.*;
 import java.lang.StringBuilder;
 
+class CsoundSynthThread implements Runnable {
+	public CsoundSynth cs;
+
+	CsoundSynthThread() {
+		cs = new CsoundSynth(true);
+	}
+
+	CsoundSynth getCsoundSynth() {
+		return cs;
+	}
+
+	@Override
+	public void run() {
+		while(true) {
+
+		}
+	}
+}
+
 class CsoundSynth {
 	Csound cs;
 	CsoundPerformanceThread csPerf;
