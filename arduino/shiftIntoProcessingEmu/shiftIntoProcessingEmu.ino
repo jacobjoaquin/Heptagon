@@ -48,6 +48,31 @@ void updateBytes() {
   }
 }
 
+void simulateBytes() {
+  digitalWrite(CLOCK, HIGH);
+  digitalWrite(LATCH, LOW);
+  delayMicroseconds(PULSE);
+  digitalWrite(LATCH, HIGH);
+
+
+
+  for(int i = NBYTES - 1; i >= 0; i--) {
+    byte thisByte = shiftIn(DATA, CLOCK, MSBFIRST);
+
+    if (random(100) <= 2) {
+      thisByte = 1 << random(7);
+    }
+
+    if (thisByte != bytes[i]) {
+      byte tStart[2] = {255, 255};
+      Serial.write(tStart, 2);
+      byte temp[3] = {i, thisByte, 0};
+      Serial.write(temp, 3);
+      bytes[i] = thisByte;
+    }
+  }
+}
+
 unsigned long pause = 0;
 void updateAnalog() {
   if (pause <= millis()) {
@@ -84,7 +109,9 @@ void setup() {
 }
 
 void loop() {
-  updateBytes();
-  updateAnalog();
+  // updateBytes();
+  simulateBytes();
+  // updateAnalog();
+  // delay(100);
   // simulateAnalogInput();
 }

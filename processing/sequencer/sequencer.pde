@@ -67,14 +67,10 @@ void draw() {
   // sw.update();
   // sw.display();
   // testSound();
-  synchronized(cs) {
-    cs.update();
-  }
+  cs.update();
 
 
-  synchronized(serialDataManager){
-    serialDataManager.readBuffer();
-  }
+  serialDataManager.readBuffer();
   while(serialDataManager.isLocked) {}
 
 

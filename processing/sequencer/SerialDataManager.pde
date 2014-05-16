@@ -22,7 +22,34 @@ public class SerialDataManager {
 
 	// Buffer data to be applied to sketch in Processing loop.
 	public synchronized void readBuffer() {
-		while (buffer.size() > 2) {
+		if (true) {
+			return;
+		}
+		boolean found = false;
+		byte b0 = 0;
+		byte b1 = 0;
+		if (buffer.size() > 4) {
+			int counter = 0;
+
+			while (!found && counter < 4) {
+				b0 = (byte) buffer.get(0);
+				b1 = (byte) buffer.get(1);
+				if (b0 == (byte) 255 && b1 == (byte) 255) {
+					found = true;
+				}
+				else {
+					buffer.remove(0);
+				}
+			}
+		}
+
+		if  (!found) {
+			return;
+		}
+
+		while (buffer.size() > 4) {
+			buffer.remove(0);
+			buffer.remove(0);
 			byte index = buffer.remove(0);
 			byte v0 = buffer.remove(0);
 			byte v1 = buffer.remove(0);
