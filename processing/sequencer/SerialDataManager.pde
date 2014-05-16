@@ -5,9 +5,14 @@ public class SerialDataManager {
 	byte[] serialBytes = new byte[8192];
 	ArrayList<Byte> buffer = new ArrayList<Byte>();
 	boolean isLocked = false;
+	boolean isEnabled = true;
 
 	// Data that comes in from serial, which is placed into the buffer
 	public synchronized void readSerial() {
+		if (!isEnabled) {
+			port.clear();
+			return;
+		}
 		int nBytesAvailable = port.available();
 
 		if (nBytesAvailable > 0) {
@@ -22,9 +27,10 @@ public class SerialDataManager {
 
 	// Buffer data to be applied to sketch in Processing loop.
 	public synchronized void readBuffer() {
-		// if (true) {
-		// 	return;
-		// }
+		if (!isEnabled) {
+			port.clear();
+			return;
+		}
 		boolean found = false;
 		byte b0 = 0;
 		byte b1 = 0;
@@ -75,7 +81,7 @@ class SerialDataManagerThread implements Runnable {
 		this.serialDataManager = serialDataManager;
 	}
 
-	@Override
+	// @Override
 	public void run() {
 		while(true) {
 			synchronized(serialDataManager) {

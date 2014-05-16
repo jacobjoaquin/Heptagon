@@ -1,3 +1,29 @@
+synchronized void updateByteInput(int index, byte value) {
+  Byte storedByte = digitalValues.get(index);
+  byte storedByteValue = storedByte.byteValue();
+
+  if (storedByteValue != value) {
+    for (int i = 0; i < 8; i++) {
+      int bitValue = ((value >> i) & 1);
+      doBit(index, i, bitValue);
+    }
+
+    storedByte = new Byte(value);
+  }
+}
+
+synchronized void updateAnalog(int index, int value) {
+  Integer storedValue = analogValues.get(index);
+  int storedValueInt = storedValue.intValue();
+
+  if (storedValue == value) {
+    return;
+  }
+
+  doAnalog(index, value);
+  analogValues.set(index, value);
+}
+
 synchronized void doBit(int byteIndex, int bitIndex, int value) {
   int index = byteIndex * 8 + bitIndex;
   Integer storedBit = digitalBits.get(index);

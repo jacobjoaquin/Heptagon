@@ -12,7 +12,7 @@ class CsoundSynthThread implements Runnable {
 		return cs;
 	}
 
-	@Override
+	// @Override
 	public void run() {
 		while(true) {
 

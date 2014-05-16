@@ -59,7 +59,7 @@ void simulateBytes() {
   for(int i = NBYTES - 1; i >= 0; i--) {
     byte thisByte = shiftIn(DATA, CLOCK, MSBFIRST);
 
-    if (random(100) <= 2) {
+    if (random(1000) <= 1) {
       thisByte = 1 << random(7);
     }
 
@@ -71,6 +71,8 @@ void simulateBytes() {
       bytes[i] = thisByte;
     }
   }
+
+  // Serial.flush();
 }
 
 unsigned long pause = 0;

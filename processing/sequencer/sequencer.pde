@@ -74,96 +74,19 @@ void setup() {
 }
 
 void draw() {
-  try {
   phsb.fillScreen();
   phsb.update();
   // sw.update();
   // sw.display();
-  // testSound();
   cs.update();
+  serialDataManager.readBuffer();
+  while(serialDataManager.isLocked) {}
 
 
-    serialDataManager.readBuffer();
-    while(serialDataManager.isLocked) {}
+  // Voice Counter
+  if (frameCount % 120 == 0) {
+    sampler.nextNumber();
   }
-  catch (Exception e) {
-    println("Exception!");
-    println(e);
-  }
-
-
-  // if (frameCount % 120 == 0) {
-  //   // cs.cs.SetChannel("samplerReverbLeft", random(1));
-  //   // cs.cs.SetChannel("samplerReverbRight", random(1));
-  //   sampler.nextNumber();
-  // }
 }
 
 
-void testSound() {
-  if (frameCount % 99 == 0) {
-    bitshiftSynth.play(0.25, (int) random(1, 32));
-  }
-  if (frameCount % 100 == 0) {
-    cs.cs.SetChannel("bitShiftFreq", random(11025, 44100));
-  }
-  if (frameCount % 121 == 0) {
-    cs.cs.SetChannel("modemFreq", random(100, 5000));
-  }
-  if (frameCount % 123 == 0) {
-    cs.cs.SetChannel("modemBPS", random(8, 300));
-  }
-  if (frameCount % 125 == 0) {
-    cs.cs.SetChannel("modemMod", random(100, 1000));
-  }
-  if (frameCount % 124 == 0) {
-    cs.cs.SetChannel("modemAmp", random(0.025, 0.1));
-  }
-  if (frameCount % 50 == 0) {
-    // phoneSynth.play((int) random(10));
-    phoneSynth.play("a".charAt(0));
-    counter = (counter + 1) % 10;
-  }
-  if (frameCount % 14 == 0) {
-    cs.cs.SetChannel("masterTune", random(0.5, 2.0));
-  }
-  if (frameCount % 301 == 0) {
-    cs.cs.SetChannel("samplerRingModFreq", random(4, 30));
-  }
-  if (frameCount % 17 == 0) {
-    cs.cs.SetChannel("reverbSize", random(0, 1));
-  }
-  if (frameCount % 88 == 0) {
-    cs.cs.SetChannel("delayLeftAmount", random(0, 500));
-    cs.cs.SetChannel("delayRightAmount", random(0, 500));
-  }
-  if (frameCount % 111 == 0) {
-    cs.cs.SetChannel("delayFeedBack", random(0, 0.45));
-  }
-}
-
-synchronized void updateByteInput(int index, byte value) {
-  Byte storedByte = digitalValues.get(index);
-  byte storedByteValue = storedByte.byteValue();
-
-  if (storedByteValue != value) {
-    for (int i = 0; i < 8; i++) {
-      int bitValue = ((value >> i) & 1);
-      doBit(index, i, bitValue);
-    }
-
-    storedByte = new Byte(value);
-  }
-}
-
-synchronized void updateAnalog(int index, int value) {
-  Integer storedValue = analogValues.get(index);
-  int storedValueInt = storedValue.intValue();
-
-  if (storedValue == value) {
-    return;
-  }
-
-  doAnalog(index, value);
-  analogValues.set(index, value);
-}
